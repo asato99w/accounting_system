@@ -4,3 +4,7 @@ def test_samle():
     result = hello_world()
     expected = "Hello, World."
     assert result == expected
+
+def test_first():
+    bs = BalanceSheet()
+    assert bs.cash == -550

@@ -1,0 +1,35 @@
+English Name,日本語名,区分
+Accumulated Depreciation,減価償却累計額,資産（マイナス）
+Accounts Payable,買掛金,負債
+Accounts Receivable,売掛金,資産
+Advertising Expense,広告宣伝費,費用
+Capital,資本金,純資産
+Cash,現金,資産
+Commission Expense,支払手数料,費用
+Communication Expenses,通信費,費用
+Consumption Tax Collected,仮受消費税,負債
+Consumption Tax Paid in Advance,仮払消費税,資産
+Cost of Goods Sold,売上原価,費用
+Current Deposit / Checking Account,当座預金,資産
+Equipment / Fixtures,備品,資産
+Interest Expense,支払利息,費用
+Inventory,棚卸資産,資産
+Land,土地,資産
+Loans Payable, Short-term,短期借入金,負債
+Notes Payable,支払手形,負債
+Notes Receivable,受取手形,資産
+Ordinary Deposit / Bank Account,普通預金,資産
+Prepaid Expenses / Prepayments,前払金,資産
+Retained Earnings,繰越利益剰余金,純資産
+Rent Expense,地代家賃,費用
+Revenue, Sales,売上高,収益
+Salaries and Wages,給料手当,費用
+Service Fees Received,受取手数料,収益
+Supplies Expense,消耗品費,費用
+Taxes and Dues,租税公課,費用
+Travel and Transportation Expenses,旅費交通費,費用
+Unearned Revenue / Advances Received,前受金,負債
+Utilities Expense,水道光熱費,費用
+Vehicles,車両運搬具,資産
+Warehouses / Merchandise,商品,資産
+Buildings,建物,資産
