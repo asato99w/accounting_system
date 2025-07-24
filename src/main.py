@@ -1,7 +1,6 @@
 
 class AccountingSystem:
     def __init__(self):
-        self.nanraka = True
         self.list2 = []
 
     def output_balance_sheet(self):
@@ -27,7 +26,6 @@ class AccountingSystem:
         if "credit" in data[0]:
             
             if len(list(data[0]["credit"].keys())) > 1:
-                self.nanraka = False
 
                 self.list2 =  []
                 for item in list(data[0]["credit"].keys()):
