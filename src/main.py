@@ -19,7 +19,14 @@ class AccountingSystem:
     
     def input(self, data):
         if "credit" in data[0] and "debit" in data[0]:
-            self.list2 = [{"勘定科目":"現金", "区分":"資産", "金額":"1000"}, {"勘定科目":"未払金", "区分":"負債", "金額":"1000"}]
+            self.list2 = []
+
+            if list(data[0].keys())[0] == "debit":
+                self.list2.append({"勘定科目":"現金", "区分":"資産", "金額":"1000"})
+            
+            if list(data[0].keys())[1] == "credit":
+                self.list2.append({"勘定科目":"未払金", "区分":"負債", "金額":"1000"})
+            
         else:
             if "credit" in data[0]:
                 shiwake = "credit"
