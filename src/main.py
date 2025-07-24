@@ -1,7 +1,6 @@
 
 class AccountingSystem:
     def __init__(self):
-        self.__account_item = ""
         self.nanraka = True
         self.list2 = []
 
@@ -26,7 +25,6 @@ class AccountingSystem:
     def input(self, data):
 
         if "credit" in data[0]:
-            self.__account_item = list(data[0]["credit"].keys())[0]
             
             if len(list(data[0]["credit"].keys())) > 1:
                 self.nanraka = False
@@ -38,5 +36,4 @@ class AccountingSystem:
                 for item in list(data[0]["credit"].keys()):
                     self.list2.append({"勘定科目":item, "区分":"資産", "金額":data[0]["credit"][item]})            
         else:
-            self.__account_item = list(data[0]["debit"].keys())[0]
             self.list2 = [{"勘定科目":list(data[0]["debit"].keys())[0], "区分":"負債", "金額":data[0]["debit"][list(data[0]["debit"].keys())[0]]}]
