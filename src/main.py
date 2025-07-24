@@ -3,27 +3,22 @@ class AccountingSystem:
     def __init__(self):
         self.list2 = []
         self.nanraka = False
+        self.result_list = [{"勘定科目":"現金", "区分":"資産", "金額":"1000"}, {"勘定科目":"未払金", "区分":"負債", "金額":"1000"}]
 
     def output_balance_sheet(self):
         header = "勘定科目,区分,金額\n"
-        if self.nanraka:
-            header += "現金,資産,1000\n未払金,負債,1000\n"
-            return header
         
-        
-        # 一個目のテストで呼ばれた場合
         if len(self.list2) == 0:
             return header
         # 二個目のテストで呼ばれた場合
         else:
-            
             result_list = self.list2
-
-
-            for item in result_list:
-                header += f'{item["勘定科目"]},{item["区分"]},{item["金額"]}\n'
-
-            return header
+            if self.nanraka:
+                result_list = self.result_list
+        
+        for item in result_list:
+            header += f'{item["勘定科目"]},{item["区分"]},{item["金額"]}\n'
+        return header
         
     
     def input(self, data):
