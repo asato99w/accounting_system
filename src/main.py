@@ -2,14 +2,15 @@
 class AccountingSystem:
     def __init__(self):
         self.__condition = True
-        self.__price = 0
         self.__account_item = ""
         self.__kubun = ""
+        self.__price = 0
 
     def output_balance_sheet(self):
         
         # 一個目のテストで呼ばれた場合
         if self.__condition:
+            
             result_list = [{"勘定科目":"現金", "区分":"資産", "金額":0}, {"勘定科目":"未払金", "区分":"負債", "金額":0}]
             header = "勘定科目,区分,金額\n"
             for item in result_list:

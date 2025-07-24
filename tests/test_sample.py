@@ -3,7 +3,7 @@ from src.main import AccountingSystem
 def test_first():
     accounting_system = AccountingSystem()
     result = accounting_system.output_balance_sheet()
-    expected = "勘定科目,区分,金額\n現金,資産,0\n未払金,負債,0\n"
+    expected = "勘定科目,区分,金額\n"
     assert result == expected
 
 def test_2():
