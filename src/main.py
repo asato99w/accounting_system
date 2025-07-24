@@ -5,12 +5,13 @@ class AccountingSystem:
         self.__kubun = ""
         self.__price = 0
         self.nanraka = True
+        self.list2 =  [{"勘定科目":"現金", "区分":"資産", "金額":"1000"},
+                {"勘定科目":"売掛金", "区分":"資産", "金額":"2000"}]
 
     def output_balance_sheet(self):
         header = "勘定科目,区分,金額\n"
         list1 = [{"勘定科目":self.__account_item, "区分":self.__kubun, "金額":self.__price}]
-        list2 = [{"勘定科目":"現金", "区分":"資産", "金額":"1000"},
-                {"勘定科目":"売掛金", "区分":"資産", "金額":"2000"}]
+        
         result_list = list1
         # 一個目のテストで呼ばれた場合
         if self.__account_item == "":
@@ -20,7 +21,7 @@ class AccountingSystem:
             if self.nanraka:
                 pass
             else:
-                result_list = list2
+                result_list = self.list2
             for item in result_list:
                 header += f'{item["勘定科目"]},{item["区分"]},{item["金額"]}\n'
             return header
@@ -30,6 +31,7 @@ class AccountingSystem:
         if "credit" in data[0]:
             if len(list(data[0]["credit"].keys())) > 1:
                 self.nanraka = False
+                
             self.__account_item = list(data[0]["credit"].keys())[0]
             self.__kubun = "資産"
             self.__price = data[0]["credit"][self.__account_item]
