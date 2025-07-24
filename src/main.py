@@ -3,7 +3,7 @@ class AccountingSystem:
     def __init__(self):
         self.list2 = []
         self.nanraka = False
-        self.result_list = [{"勘定科目":"現金", "区分":"資産", "金額":"1000"}, {"勘定科目":"未払金", "区分":"負債", "金額":"1000"}]
+        self.result_list = []
 
     def output_balance_sheet(self):
         header = "勘定科目,区分,金額\n"
@@ -24,6 +24,7 @@ class AccountingSystem:
     def input(self, data):
         if "credit" in data[0] and "debit" in data[0]:
             self.nanraka = True
+            self.result_list = [{"勘定科目":"現金", "区分":"資産", "金額":"1000"}, {"勘定科目":"未払金", "区分":"負債", "金額":"1000"}]
 
 
         if "credit" in data[0]:
