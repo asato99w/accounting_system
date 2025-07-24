@@ -10,7 +10,7 @@ class AccountingSystem:
         
         
         # 一個目のテストで呼ばれた場合
-        if self.__account_item == "":
+        if len(self.list2) == 0:
             return header
         # 二個目のテストで呼ばれた場合
         else:
