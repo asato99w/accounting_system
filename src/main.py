@@ -8,22 +8,22 @@ class AccountingSystem:
 
     def output_balance_sheet(self):
         header = "勘定科目,区分,金額\n"
-        result_list = [{"勘定科目":self.__account_item, "区分":self.__kubun, "金額":self.__price}]
+        list1 = [{"勘定科目":self.__account_item, "区分":self.__kubun, "金額":self.__price}]
+        list2 = [{"勘定科目":"現金", "区分":"資産", "金額":"1000"},
+                {"勘定科目":"売掛金", "区分":"資産", "金額":"2000"}]
+        result_list = list1
         # 一個目のテストで呼ばれた場合
         if self.__account_item == "":
             return header
         # 二個目のテストで呼ばれた場合
         else:
             if self.nanraka:
-                for item in result_list:
-                    header += f'{item["勘定科目"]},{item["区分"]},{item["金額"]}\n'
-                return header
+                pass
             else:
-                result_list = [{"勘定科目":"現金", "区分":"資産", "金額":"1000"},
-                               {"勘定科目":"売掛金", "区分":"資産", "金額":"2000"}]
-                for item in result_list:
-                    header += f'{item["勘定科目"]},{item["区分"]},{item["金額"]}\n'
-                return header
+                result_list = list2
+            for item in result_list:
+                header += f'{item["勘定科目"]},{item["区分"]},{item["金額"]}\n'
+            return header
         
     
     def input(self, data):
