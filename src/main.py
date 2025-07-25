@@ -14,9 +14,8 @@ class AccountingSystem:
                 {"勘定科目": "未払金", "区分": "負債", "金額": 500},
                 {"勘定科目": "買掛金", "区分": "負債", "金額": 2500}
                 ]
-            expected_list = ["現金,資産,1500\n", "売掛金,資産,1500\n", "未払金,負債,500\n", "買掛金,負債,2500\n"]
-            for expected in expected_list:
-                header += expected
+            for item in expected_dict_list:
+                header += f'{item["勘定科目"]},{item["区分"]},{item["金額"]}\n'
             return header
         else:
             if len(self.list2) == 0 and len(self.list2) == 0:
