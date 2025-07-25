@@ -34,12 +34,8 @@ class AccountingSystem:
 
             debit_list = ["未払金", "買掛金"]
             for target_dict in temp_list:
-                if target_dict["勘定科目"] == "未払金":
+                if target_dict["勘定科目"] in debit_list:
                     self.list2.append({"勘定科目":target_dict["勘定科目"], "区分":"負債", "金額":target_dict["金額"]})
-            for target_dict in temp_list:
-                if target_dict["勘定科目"] == "買掛金":
-                    self.list2.append({"勘定科目":target_dict["勘定科目"], "区分":"負債", "金額":target_dict["金額"]})
-            
         else:
             if "credit" in data[0]:
                 shiwake = "credit"
