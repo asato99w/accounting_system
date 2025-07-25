@@ -35,12 +35,8 @@ class AccountingSystem:
                     {"勘定科目": "売掛金", "仕分": "credit", "金額": 1500}
                 ]
                 
-                nanika = [
-                    {"勘定科目": "未払金"},
-                    {"勘定科目": "買掛金"},
-                    {"勘定科目": "現金"}, 
-                    {"勘定科目": "売掛金"} 
-                ]
+                nanika = {"未払金":0, "買掛金":0, "現金":0, "売掛金":0}
+
                 for target_dict in mid_mid_data:
                     account_item = target_dict["勘定科目"]
 
@@ -68,6 +64,12 @@ class AccountingSystem:
                             # TODO:引く
                             pass
 
+                nanika2 = {"未払金":500, "買掛金":2500, "現金":1500, "売掛金":1500}
+
+                nanika2_list = []
+                for key in nanika2:
+                    nanika2_list.append({"勘定科目": key, "金額": nanika2[key]})
+
                 intermediate_data = [
                     {"勘定科目": "未払金", "金額": 500},
                     {"勘定科目": "買掛金", "金額": 2500},
@@ -75,7 +77,7 @@ class AccountingSystem:
                     {"勘定科目": "売掛金", "金額": 1500} 
                 ]
 
-                intermediate_data = nanika
+                intermediate_data = nanika2_list
 
                 credit_list = ["現金", "売掛金"]
                 for target_dict in intermediate_data:
