@@ -20,14 +20,12 @@ class AccountingSystem:
             self.list2 = []
 
             if "現金" in list(data[0]["debit"].keys()) and "現金" in list(data[0]["credit"].keys()):
-            
-                mid_mid_data = [
-                    {"勘定科目": "未払金", "仕分": "debit", "金額": 500},
-                    {"勘定科目": "買掛金", "仕分": "debit", "金額": 2500},
-                    {"勘定科目": "現金", "仕分": "debit", "金額": 500},
-                    {"勘定科目": "現金", "仕分": "credit", "金額": 2000},
-                    {"勘定科目": "売掛金", "仕分": "credit", "金額": 1500}
-                ]
+                
+                new_mid_mid_data = []
+                for key in data[0]["debit"]:
+                    new_mid_mid_data.append({"勘定科目": key, "仕分": "debit", "金額": data[0]["debit"][key]})
+                for key in data[0]["credit"]:
+                    new_mid_mid_data.append({"勘定科目": key, "仕分": "credit", "金額": data[0]["credit"][key]})
 
                 shiwakehyou = {
                     "debit": {
@@ -49,6 +47,8 @@ class AccountingSystem:
                     new_nanika.update({account_item: 0})
 
                 nanika = new_nanika
+
+                mid_mid_data = new_mid_mid_data
 
                 for target_dict in mid_mid_data:
                     account_item = target_dict["勘定科目"]
