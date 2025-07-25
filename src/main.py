@@ -60,7 +60,7 @@ class AccountingSystem:
 
                     if account_item == "未払金":
                         if target_dict["仕分"] == "debit":
-                            nanika["未払金"] += target_dict["金額"] * 1
+                            nanika["未払金"] += target_dict["金額"] * shiwakehyou["debit"]["未払金"]
                         else:
                             nanika["未払金"] += target_dict["金額"] * -1
 
