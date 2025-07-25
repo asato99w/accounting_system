@@ -9,8 +9,8 @@ class AccountingSystem:
         
         if self.something:
             expected_list = ["現金,資産,1500\n", "売掛金,資産,1500\n", "未払金,負債,500\n", "買掛金,負債,2500\n"]
-            expected = "現金,資産,1500\n売掛金,資産,1500\n未払金,負債,500\n買掛金,負債,2500\n"
-            header += expected
+            for expected in expected_list:
+                header += expected
             return header
         else:
             if len(self.list2) == 0 and len(self.list2) == 0:
