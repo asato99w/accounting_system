@@ -54,8 +54,6 @@ class AccountingSystem:
                     account_item = target_dict["勘定科目"]
                     nanika[account_item] += target_dict["金額"] * shiwakehyou[target_dict["仕分"]][account_item]
 
-                nanika2 = {"未払金":500, "買掛金":2500, "現金":1500, "売掛金":1500}
-
                 nanika2 = nanika
                 
 
