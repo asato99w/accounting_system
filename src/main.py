@@ -37,7 +37,7 @@ class AccountingSystem:
                 
                 nanika = {"未払金":0, "買掛金":0, "現金":0, "売掛金":0}
                 nanika_a = {"未払金":[], "買掛金":[], "現金":[], "売掛金":[]}
-                nanika29 = {"未払金":[], "買掛金":[], "現金":[2000, -500], "売掛金":[1500]}
+                nanika29 = {"未払金":[], "買掛金":[], "現金":[], "売掛金":[]}
 
                 for target_dict in mid_mid_data:
                     account_item = target_dict["勘定科目"]
@@ -61,15 +61,15 @@ class AccountingSystem:
                     if account_item == "現金":
                         if target_dict["仕分"] == "credit":
                             # TODO:足す
-                            pass
+                            nanika29["現金"].append(target_dict["金額"])
                         else:
                             # TODO:引く
-                            pass
+                            nanika29["現金"].append(target_dict["金額"] * -1)
 
                     if account_item == "売掛金":
                         if target_dict["仕分"] == "credit":
                             # TODO:足す
-                            pass
+                            nanika29["売掛金"].append(target_dict["金額"])
                         else:
                             # TODO:引く
                             pass
