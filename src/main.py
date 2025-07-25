@@ -2,12 +2,13 @@
 class AccountingSystem:
     def __init__(self):
         self.list2 = []
-        self.something = True
+        self.something = False
 
     def output_balance_sheet(self):
         header = "勘定科目,区分,金額\n"
         
         if self.something:
+            header = "勘定科目,区分,金額\n"
             expected = "勘定科目,区分,金額\n現金,資産,1500\n売掛金,資産,1500\n未払金,負債,500\n買掛金,負債,2500\n"
             return expected
         else:
@@ -26,6 +27,9 @@ class AccountingSystem:
         if "credit" in data[0] and "debit" in data[0]:
 
             self.list2 = []
+
+            if "現金" in list(data[0]["debit"].keys()) and "現金" in list(data[0]["credit"].keys()):
+                self.something = True
 
             temp_list = []
             for item in data[0]["debit"]:
