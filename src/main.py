@@ -57,18 +57,7 @@ class AccountingSystem:
 
                 for target_dict in mid_mid_data:
                     account_item = target_dict["勘定科目"]
-
-                    if account_item == "未払金":
-                        nanika["未払金"] += target_dict["金額"] * shiwakehyou[target_dict["仕分"]][account_item]
-
-                    if account_item == "買掛金":
-                        nanika["買掛金"] += target_dict["金額"] * shiwakehyou[target_dict["仕分"]][account_item]
-                    
-                    if account_item == "現金":
-                        nanika["現金"] += target_dict["金額"] * shiwakehyou[target_dict["仕分"]][account_item]
-
-                    if account_item == "売掛金":
-                        nanika["売掛金"] += target_dict["金額"] * shiwakehyou[target_dict["仕分"]][account_item]
+                    nanika[account_item] += target_dict["金額"] * shiwakehyou[target_dict["仕分"]][account_item]
 
                 # nanika3 = {"未払金":[500], "買掛金":[2500], "現金":[2000, -500], "売掛金":[1500]}
                 # nanika3 = nanika29
