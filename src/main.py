@@ -34,6 +34,8 @@ class AccountingSystem:
                     {"勘定科目": "現金", "仕分": "credit", "金額": 2000},
                     {"勘定科目": "売掛金", "仕分": "credit", "金額": 1500}
                 ]
+
+                
                 
                 nanika = {"未払金":0, "買掛金":0, "現金":0, "売掛金":0}
                 # nanika = {"未払金":0, "買掛金":2500, "現金":1500, "売掛金":1500}
@@ -54,6 +56,12 @@ class AccountingSystem:
                         "売掛金": 1
                     }
                 }
+
+                new_nanika = {}
+                for account_item in shiwakehyou["debit"]:
+                    new_nanika.update({account_item: 0})
+
+                nanika = new_nanika
 
                 for target_dict in mid_mid_data:
                     account_item = target_dict["勘定科目"]
