@@ -8,7 +8,6 @@ class AccountingSystem:
         
         if len(self.list2) == 0 and len(self.list2) == 0:
             return header
-        # 二個目のテストで呼ばれた場合
         else:
             result_list = self.list2
         
