@@ -28,8 +28,9 @@ class AccountingSystem:
             for item in data[0]["credit"]:
                 temp_list.append({"勘定科目":item, "金額":data[0]["credit"][item]})
 
+            credit_list = ["現金", "売掛金"]
             for target_dict in temp_list:
-                if "現金" == target_dict["勘定科目"]:
+                if target_dict["勘定科目"] in credit_list:
                     self.list2.append({"勘定科目":target_dict["勘定科目"], "区分":"資産", "金額":target_dict["金額"]})
 
             debit_list = ["未払金", "買掛金"]
