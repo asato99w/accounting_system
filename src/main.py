@@ -3,13 +3,14 @@ class AccountingSystem:
     def __init__(self):
         self.list2 = []
         self.something = False
+        self.list3 = []
 
     def output_balance_sheet(self):
         header = "勘定科目,区分,金額\n"
         
         if self.something:
             expected_dict_list = self.list2
-            for item in expected_dict_list:
+            for item in self.list2:
                 header += f'{item["勘定科目"]},{item["区分"]},{item["金額"]}\n'
             return header
         else:
@@ -18,7 +19,7 @@ class AccountingSystem:
             else:
                 result_list = self.list2
 
-            for item in result_list:
+            for item in self.list2:
                 header += f'{item["勘定科目"]},{item["区分"]},{item["金額"]}\n'
 
             return header
