@@ -45,34 +45,26 @@ class AccountingSystem:
 
                     if account_item == "未払金":
                         if target_dict["仕分"] == "debit":
-                            # TODO:足す
                             nanika["未払金"] += target_dict["金額"]
                         else:
-                            # TODO:引く
                             nanika["未払金"] += target_dict["金額"] * -1
 
                     if account_item == "買掛金":
                         if target_dict["仕分"] == "debit":
-                            # TODO:足す
                             nanika["買掛金"] += target_dict["金額"]
                         else:
-                            # TODO:引く
                             nanika["買掛金"] += target_dict["金額"] * -1
                     
                     if account_item == "現金":
                         if target_dict["仕分"] == "credit":
-                            # TODO:足す
                             nanika["現金"] += target_dict["金額"]
                         else:
-                            # TODO:引く
                             nanika["現金"] += target_dict["金額"] * -1
 
                     if account_item == "売掛金":
                         if target_dict["仕分"] == "credit":
-                            # TODO:足す
                             nanika["売掛金"] += target_dict["金額"]
                         else:
-                            # TODO:引く
                              nanika["売掛金"] += target_dict["金額"] * -1
 
                 # nanika3 = {"未払金":[500], "買掛金":[2500], "現金":[2000, -500], "売掛金":[1500]}
