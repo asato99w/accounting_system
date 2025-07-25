@@ -9,16 +9,16 @@ class AccountingSystem:
         header = "勘定科目,区分,金額\n"
         
         if self.something:
-            expected_dict_list = self.list2
+            if len(self.list2) == 0:
+                return header
+            
             for item in self.list2:
                 header += f'{item["勘定科目"]},{item["区分"]},{item["金額"]}\n'
             return header
         else:
-            if len(self.list2) == 0 and len(self.list2) == 0:
+            if len(self.list2) == 0:
                 return header
-            else:
-                result_list = self.list2
-
+            
             for item in self.list2:
                 header += f'{item["勘定科目"]},{item["区分"]},{item["金額"]}\n'
 
