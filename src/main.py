@@ -27,8 +27,20 @@ class AccountingSystem:
             mouteki = {
                 "現金": 1000
               }
-            mouteki = list(data[0].values())[1]
-            if "現金" in list(mouteki.keys()):
+            
+        
+            temp_list = [
+                {"勘定科目":"現金", "金額":"1000"},
+                 {"勘定科目":"未払金", "金額":"1000"}
+            ]
+
+            account_item_list = []
+            for account_item in temp_list:
+                accoutn_item_value = account_item["勘定科目"]
+                account_item_list.append(accoutn_item_value)
+
+            # if "現金" in list(mouteki.keys()):
+            if "現金" in account_item_list:
                 self.list2.append({"勘定科目":"現金", "区分":"資産", "金額":"1000"})
             self.list2.append({"勘定科目":"未払金", "区分":"負債", "金額":"1000"})
             
