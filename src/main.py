@@ -59,11 +59,8 @@ class AccountingSystem:
                     account_item = target_dict["勘定科目"]
 
                     if account_item == "未払金":
-                        if target_dict["仕分"] == "debit":
-                            nanika["未払金"] += target_dict["金額"] * shiwakehyou[target_dict["仕分"]][account_item]
-                        else:
-                            nanika["未払金"] += target_dict["金額"] * shiwakehyou[target_dict["仕分"]][account_item]
-
+                        nanika["未払金"] += target_dict["金額"] * shiwakehyou[target_dict["仕分"]][account_item]
+                        
                     if account_item == "買掛金":
                         if target_dict["仕分"] == "debit":
                             nanika["買掛金"] += target_dict["金額"] * shiwakehyou[target_dict["仕分"]][account_item]
