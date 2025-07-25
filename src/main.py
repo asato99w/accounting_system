@@ -46,20 +46,15 @@ class AccountingSystem:
                 for account_item in shiwakehyou["debit"]:
                     new_nanika.update({account_item: 0})
 
-                nanika = new_nanika
-
                 mid_mid_data = new_mid_mid_data
 
                 for target_dict in mid_mid_data:
                     account_item = target_dict["勘定科目"]
-                    nanika[account_item] += target_dict["金額"] * shiwakehyou[target_dict["仕分"]][account_item]
-
-                nanika2 = nanika
-                
-
+                    new_nanika[account_item] += target_dict["金額"] * shiwakehyou[target_dict["仕分"]][account_item]
+                    
                 nanika2_list = []
-                for key in nanika2:
-                    nanika2_list.append({"勘定科目": key, "金額": nanika2[key]})
+                for key in new_nanika:
+                    nanika2_list.append({"勘定科目": key, "金額": new_nanika[key]})
 
                 intermediate_data = [
                     {"勘定科目": "未払金", "金額": 500},
