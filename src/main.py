@@ -20,13 +20,7 @@ class AccountingSystem:
             self.list2 = []
 
             if "現金" in list(data[0]["debit"].keys()) and "現金" in list(data[0]["credit"].keys()):
-                # self.list2 = [
-                # {"勘定科目": "現金", "区分": "資産", "金額": 1500}, 
-                # {"勘定科目": "売掛金", "区分": "資産", "金額": 1500}, 
-                # {"勘定科目": "未払金", "区分": "負債", "金額": 500},
-                # {"勘定科目": "買掛金", "区分": "負債", "金額": 2500}
-                # ]
-
+            
                 mid_mid_data = [
                     {"勘定科目": "未払金", "仕分": "debit", "金額": 500},
                     {"勘定科目": "買掛金", "仕分": "debit", "金額": 2500},
@@ -34,13 +28,6 @@ class AccountingSystem:
                     {"勘定科目": "現金", "仕分": "credit", "金額": 2000},
                     {"勘定科目": "売掛金", "仕分": "credit", "金額": 1500}
                 ]
-
-                
-                
-                nanika = {"未払金":0, "買掛金":0, "現金":0, "売掛金":0}
-                # nanika = {"未払金":0, "買掛金":2500, "現金":1500, "売掛金":1500}
-                # nanika_a = {"未払金":[], "買掛金":[], "現金":[], "売掛金":[]}
-                nanika29 = {"未払金":[], "買掛金":[], "現金":[], "売掛金":[]}
 
                 shiwakehyou = {
                     "debit": {
@@ -66,16 +53,6 @@ class AccountingSystem:
                 for target_dict in mid_mid_data:
                     account_item = target_dict["勘定科目"]
                     nanika[account_item] += target_dict["金額"] * shiwakehyou[target_dict["仕分"]][account_item]
-
-                # nanika3 = {"未払金":[500], "買掛金":[2500], "現金":[2000, -500], "売掛金":[1500]}
-                # nanika3 = nanika29
-
-                # new_nanika2 = {}
-                # for key in nanika3:
-                #     total_price = 0
-                #     for price in nanika3[key]:
-                #         total_price += price
-                #     new_nanika2[key] = total_price
 
                 nanika2 = {"未払金":500, "買掛金":2500, "現金":1500, "売掛金":1500}
 
