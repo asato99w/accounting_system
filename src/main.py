@@ -2,27 +2,16 @@
 class AccountingSystem:
     def __init__(self):
         self.list2 = []
-        self.something = False
-        self.list3 = []
 
     def output_balance_sheet(self):
         header = "勘定科目,区分,金額\n"
         
-        if self.something:
-            if len(self.list2) == 0:
-                return header
-            
-            for item in self.list2:
-                header += f'{item["勘定科目"]},{item["区分"]},{item["金額"]}\n'
+        if len(self.list2) == 0:
             return header
-        else:
-            if len(self.list2) == 0:
-                return header
-            
-            for item in self.list2:
-                header += f'{item["勘定科目"]},{item["区分"]},{item["金額"]}\n'
-
-            return header
+        
+        for item in self.list2:
+            header += f'{item["勘定科目"]},{item["区分"]},{item["金額"]}\n'
+        return header
 
 
     def input(self, data):
@@ -31,7 +20,6 @@ class AccountingSystem:
             self.list2 = []
 
             if "現金" in list(data[0]["debit"].keys()) and "現金" in list(data[0]["credit"].keys()):
-                self.something = True
                 self.list2 = [
                 {"勘定科目": "現金", "区分": "資産", "金額": 1500}, 
                 {"勘定科目": "売掛金", "区分": "資産", "金額": 1500}, 
