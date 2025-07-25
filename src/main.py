@@ -3,12 +3,7 @@ class AccountingSystem:
     def __init__(self):
         self.list2 = []
         self.something = False
-        self.list3 = [
-                {"勘定科目": "現金", "区分": "資産", "金額": 1500}, 
-                {"勘定科目": "売掛金", "区分": "資産", "金額": 1500}, 
-                {"勘定科目": "未払金", "区分": "負債", "金額": 500},
-                {"勘定科目": "買掛金", "区分": "負債", "金額": 2500}
-                ]
+        self.list3 = []
 
     def output_balance_sheet(self):
         header = "勘定科目,区分,金額\n"
@@ -37,6 +32,12 @@ class AccountingSystem:
 
             if "現金" in list(data[0]["debit"].keys()) and "現金" in list(data[0]["credit"].keys()):
                 self.something = True
+                self.list3 = [
+                {"勘定科目": "現金", "区分": "資産", "金額": 1500}, 
+                {"勘定科目": "売掛金", "区分": "資産", "金額": 1500}, 
+                {"勘定科目": "未払金", "区分": "負債", "金額": 500},
+                {"勘定科目": "買掛金", "区分": "負債", "金額": 2500}
+                ]
 
             temp_list = []
             for item in data[0]["debit"]:
