@@ -37,6 +37,7 @@ class AccountingSystem:
                 
                 nanika = {"未払金":0, "買掛金":0, "現金":0, "売掛金":0}
                 nanika_a = {"未払金":[], "買掛金":[], "現金":[], "売掛金":[]}
+                nanika29 = {"未払金":[], "買掛金":[2500], "現金":[2000, -500], "売掛金":[1500]}
 
                 for target_dict in mid_mid_data:
                     account_item = target_dict["勘定科目"]
