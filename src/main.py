@@ -60,24 +60,15 @@ class AccountingSystem:
 
                     if account_item == "未払金":
                         nanika["未払金"] += target_dict["金額"] * shiwakehyou[target_dict["仕分"]][account_item]
-                        
+
                     if account_item == "買掛金":
-                        if target_dict["仕分"] == "debit":
-                            nanika["買掛金"] += target_dict["金額"] * shiwakehyou[target_dict["仕分"]][account_item]
-                        else:
-                            nanika["買掛金"] += target_dict["金額"] * shiwakehyou[target_dict["仕分"]][account_item]
+                        nanika["買掛金"] += target_dict["金額"] * shiwakehyou[target_dict["仕分"]][account_item]
                     
                     if account_item == "現金":
-                        if target_dict["仕分"] == "credit":
-                            nanika["現金"] += target_dict["金額"] * shiwakehyou[target_dict["仕分"]][account_item]
-                        else:
-                            nanika["現金"] += target_dict["金額"] * shiwakehyou[target_dict["仕分"]][account_item]
+                        nanika["現金"] += target_dict["金額"] * shiwakehyou[target_dict["仕分"]][account_item]
 
                     if account_item == "売掛金":
-                        if target_dict["仕分"] == "credit":
-                            nanika["売掛金"] += target_dict["金額"] * shiwakehyou[target_dict["仕分"]][account_item]
-                        else:
-                             nanika["売掛金"] += target_dict["金額"] * shiwakehyou[target_dict["仕分"]][account_item]
+                        nanika["売掛金"] += target_dict["金額"] * shiwakehyou[target_dict["仕分"]][account_item]
 
                 # nanika3 = {"未払金":[500], "買掛金":[2500], "現金":[2000, -500], "売掛金":[1500]}
                 # nanika3 = nanika29
