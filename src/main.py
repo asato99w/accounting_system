@@ -35,10 +35,32 @@ class AccountingSystem:
                     {"勘定科目": "売掛金", "仕分": "credit", "金額": 1500}
                 ]
                 
+                nanika = [
+                    {"勘定科目": "未払金"},
+                    {"勘定科目": "買掛金"},
+                    {"勘定科目": "現金"}, 
+                    {"勘定科目": "売掛金"} 
+                ]
                 for target_dict in mid_mid_data:
                     account_item = target_dict["勘定科目"]
+
+                    if account_item == "未払金":
+                        if target_dict["仕分"] == "debit":
+                            # TODO:足す
+                            pass
+                        else:
+                            # TODO:引く
+                            pass
                     
                     if account_item == "現金":
+                        if target_dict["仕分"] == "credit":
+                            # TODO:足す
+                            pass
+                        else:
+                            # TODO:引く
+                            pass
+
+                    if account_item == "売掛金":
                         if target_dict["仕分"] == "credit":
                             # TODO:足す
                             pass
@@ -52,6 +74,8 @@ class AccountingSystem:
                     {"勘定科目": "現金", "金額": 1500}, 
                     {"勘定科目": "売掛金", "金額": 1500} 
                 ]
+
+                intermediate_data = nanika
 
                 credit_list = ["現金", "売掛金"]
                 for target_dict in intermediate_data:
