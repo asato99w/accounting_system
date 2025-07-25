@@ -22,11 +22,6 @@ class AccountingSystem:
 
 
             self.list2 = []
-
-            mouteki = data[0]["credit"]
-            mouteki = {
-                "現金": 1000
-              }
             
         
             temp_list = [
