@@ -37,7 +37,7 @@ class AccountingSystem:
                 if target_dict["勘定科目"] == "未払金":
                     self.list2.append({"勘定科目":target_dict["勘定科目"], "区分":"負債", "金額":target_dict["金額"]})
             for target_dict in temp_list:
-                if "買掛金" == target_dict["勘定科目"]:
+                if target_dict["勘定科目"] == "買掛金":
                     self.list2.append({"勘定科目":target_dict["勘定科目"], "区分":"負債", "金額":target_dict["金額"]})
             
         else:
