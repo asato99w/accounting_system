@@ -21,11 +21,11 @@ class AccountingSystem:
 
             if "現金" in list(data[0]["debit"].keys()) and "現金" in list(data[0]["credit"].keys()):
                 
-                new_mid_mid_data = []
+                mid_data = []
                 for key in data[0]["debit"]:
-                    new_mid_mid_data.append({"勘定科目": key, "仕分": "debit", "金額": data[0]["debit"][key]})
+                    mid_data.append({"勘定科目": key, "仕分": "debit", "金額": data[0]["debit"][key]})
                 for key in data[0]["credit"]:
-                    new_mid_mid_data.append({"勘定科目": key, "仕分": "credit", "金額": data[0]["credit"][key]})
+                    mid_data.append({"勘定科目": key, "仕分": "credit", "金額": data[0]["credit"][key]})
 
                 shiwakehyou = {
                     "debit": {
@@ -42,36 +42,25 @@ class AccountingSystem:
                     }
                 }
 
-                new_nanika = {}
+                zandaka = {}
                 for account_item in shiwakehyou["debit"]:
-                    new_nanika.update({account_item: 0})
+                    zandaka.update({account_item: 0})
 
-                mid_mid_data = new_mid_mid_data
-
-                for target_dict in mid_mid_data:
+                for target_dict in mid_data:
                     account_item = target_dict["勘定科目"]
-                    new_nanika[account_item] += target_dict["金額"] * shiwakehyou[target_dict["仕分"]][account_item]
-                    
-                nanika2_list = []
-                for key in new_nanika:
-                    nanika2_list.append({"勘定科目": key, "金額": new_nanika[key]})
+                    zandaka[account_item] += target_dict["金額"] * shiwakehyou[target_dict["仕分"]][account_item]
 
-                intermediate_data = [
-                    {"勘定科目": "未払金", "金額": 500},
-                    {"勘定科目": "買掛金", "金額": 2500},
-                    {"勘定科目": "現金", "金額": 1500}, 
-                    {"勘定科目": "売掛金", "金額": 1500} 
-                ]
-
-                intermediate_data = nanika2_list
+                kamoku_list = []
+                for key in zandaka:
+                    kamoku_list.append({"勘定科目": key, "金額": zandaka[key]})
 
                 credit_list = ["現金", "売掛金"]
-                for target_dict in intermediate_data:
+                for target_dict in kamoku_list:
                     if target_dict["勘定科目"] in credit_list:
                         self.list2.append({"勘定科目":target_dict["勘定科目"], "区分":"資産", "金額":target_dict["金額"]})
 
                 debit_list = ["未払金", "買掛金"]
-                for target_dict in intermediate_data:
+                for target_dict in kamoku_list:
                     if target_dict["勘定科目"] in debit_list:
                         self.list2.append({"勘定科目":target_dict["勘定科目"], "区分":"負債", "金額":target_dict["金額"]})
             else:
