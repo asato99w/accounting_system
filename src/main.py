@@ -37,7 +37,7 @@ class AccountingSystem:
                 
                 nanika = {"未払金":0, "買掛金":0, "現金":0, "売掛金":0}
                 nanika_a = {"未払金":[], "買掛金":[], "現金":[], "売掛金":[]}
-                nanika29 = {"未払金":[], "買掛金":[2500], "現金":[2000, -500], "売掛金":[1500]}
+                nanika29 = {"未払金":[], "買掛金":[], "現金":[2000, -500], "売掛金":[1500]}
 
                 for target_dict in mid_mid_data:
                     account_item = target_dict["勘定科目"]
@@ -45,7 +45,15 @@ class AccountingSystem:
                     if account_item == "未払金":
                         if target_dict["仕分"] == "debit":
                             # TODO:足す
+                            nanika29["未払金"].append(target_dict["金額"])
+                        else:
+                            # TODO:引く
                             pass
+
+                    if account_item == "買掛金":
+                        if target_dict["仕分"] == "debit":
+                            # TODO:足す
+                            nanika29["買掛金"].append(target_dict["金額"])
                         else:
                             # TODO:引く
                             pass
@@ -67,8 +75,19 @@ class AccountingSystem:
                             pass
 
                 nanika3 = {"未払金":[500], "買掛金":[2500], "現金":[2000, -500], "売掛金":[1500]}
+                nanika3 = nanika29
+
+                new_nanika2 = {}
+                for key in nanika3:
+                    total_price = 0
+                    for price in nanika3[key]:
+                        total_price += price
+                    new_nanika2[key] = total_price
 
                 nanika2 = {"未払金":500, "買掛金":2500, "現金":1500, "売掛金":1500}
+
+                nanika2 = new_nanika2
+                
 
                 nanika2_list = []
                 for key in nanika2:
