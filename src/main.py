@@ -34,6 +34,17 @@ class AccountingSystem:
                     {"勘定科目": "現金", "仕分": "credit", "金額": 2000},
                     {"勘定科目": "売掛金", "仕分": "credit", "金額": 1500}
                 ]
+                
+                for target_dict in mid_mid_data:
+                    account_item = target_dict["勘定科目"]
+                    
+                    if account_item == "現金":
+                        if target_dict["仕分"] == "credit":
+                            # TODO:足す
+                            pass
+                        else:
+                            # TODO:引く
+                            pass
 
                 intermediate_data = [
                     {"勘定科目": "現金", "金額": 1500}, 
