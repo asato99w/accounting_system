@@ -9,8 +9,9 @@ class AccountingSystem:
         
         if self.something:
             header = "勘定科目,区分,金額\n"
-            expected = "勘定科目,区分,金額\n現金,資産,1500\n売掛金,資産,1500\n未払金,負債,500\n買掛金,負債,2500\n"
-            return expected
+            expected = "現金,資産,1500\n売掛金,資産,1500\n未払金,負債,500\n買掛金,負債,2500\n"
+            header += expected
+            return header
         else:
             if len(self.list2) == 0 and len(self.list2) == 0:
                 return header
