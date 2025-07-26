@@ -16,8 +16,6 @@ class AccountingSystem:
 
     def input(self, data):
         mid_data = []
-        zandaka = {}
-        kamoku_list = []
         for trade in data:
             if not ("credit" in trade and "debit" in trade):
                 raise ValueError
@@ -70,6 +68,7 @@ class AccountingSystem:
                 "資本金": "debit"
             }
         }
+        zandaka = {}
         for account_item in shiwakehyou["debit"]:
             zandaka.update({account_item: 0})
         # for target_dict in mid_data:
@@ -92,6 +91,7 @@ class AccountingSystem:
             zandaka[key] = [kingaku, shiwake]
         # for item in zandaka:
         #     zandaka[item] = [zandaka[item], shiwakehyou2["credit"][item]]
+        kamoku_list = []
         for key in zandaka:
             kamoku_list.append({"勘定科目": key, "金額": zandaka[key]})
         # kamoku_list = [
