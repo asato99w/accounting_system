@@ -15,105 +15,106 @@ class AccountingSystem:
 
 
     def input(self, data):
-        if not ("credit" in data[0] and "debit" in data[0]):
-            raise ValueError
-        
+        for trade in data:
+            if not ("credit" in trade and "debit" in trade):
+                raise ValueError
 
-        self.list2 = []
 
-        mid_data = []
-        for key in data[0]["debit"]:
-            mid_data.append({"勘定科目": key, "仕分": "debit", "金額": data[0]["debit"][key]})
-        for key in data[0]["credit"]:
-            mid_data.append({"勘定科目": key, "仕分": "credit", "金額": data[0]["credit"][key]})
+            self.list2 = []
 
-        motocho = {
-                "未払金": [],
-                "買掛金": [],
-                "現金": [],
-                "売掛金": [],
-                "資本金": []
+            mid_data = []
+            for key in trade["debit"]:
+                mid_data.append({"勘定科目": key, "仕分": "debit", "金額": trade["debit"][key]})
+            for key in trade["credit"]:
+                mid_data.append({"勘定科目": key, "仕分": "credit", "金額": trade["credit"][key]})
+
+            motocho = {
+                    "未払金": [],
+                    "買掛金": [],
+                    "現金": [],
+                    "売掛金": [],
+                    "資本金": []
+                }
+
+            for target_dict in mid_data:
+                for key in motocho:
+                    if target_dict["勘定科目"] == key:
+                        motocho[key].append(target_dict)
+
+            shiwakehyou = {
+                "debit": {
+                    "未払金": 1,
+                    "買掛金": 1,
+                    "現金": -1,
+                    "売掛金": -1,
+                    "資本金": 1
+                },
+                "credit": {
+                    "未払金": -1,
+                    "買掛金": -1,
+                    "現金": 1,
+                    "売掛金": 1,
+                    "資本金": -1
+                }
             }
-        
-        for target_dict in mid_data:
+
+            shiwakehyou2 = {
+                "debit": {
+                    "未払金": "debit",
+                    "買掛金": "debit",
+                    "現金": "credit",
+                    "売掛金": "credit",
+                    "資本金": "debit"
+                },
+                "credit": {
+                    "未払金": "debit",
+                    "買掛金": "debit",
+                    "現金": "credit",
+                    "売掛金": "credit",
+                    "資本金": "debit"
+                }
+            }
+
+            zandaka = {}
+            for account_item in shiwakehyou["debit"]:
+                zandaka.update({account_item: 0})
+
+            # for target_dict in mid_data:
+            #     account_item = target_dict["勘定科目"]
+            #     zandaka[account_item] += target_dict["金額"] * shiwakehyou[target_dict["仕分"]][account_item]
+
             for key in motocho:
-                if target_dict["勘定科目"] == key:
-                    motocho[key].append(target_dict)
+                nanika = 0
+                nanika2 = 0
+                for target_dict in motocho[key]:
+                    if target_dict["仕分"] == "debit":
+                        nanika += target_dict["金額"]
+                    else:
+                        nanika2 += target_dict["金額"]
 
-        shiwakehyou = {
-            "debit": {
-                "未払金": 1,
-                "買掛金": 1,
-                "現金": -1,
-                "売掛金": -1,
-                "資本金": 1
-            },
-            "credit": {
-                "未払金": -1,
-                "買掛金": -1,
-                "現金": 1,
-                "売掛金": 1,
-                "資本金": -1
-            }
-        }
-
-        shiwakehyou2 = {
-            "debit": {
-                "未払金": "debit",
-                "買掛金": "debit",
-                "現金": "credit",
-                "売掛金": "credit",
-                "資本金": "debit"
-            },
-            "credit": {
-                "未払金": "debit",
-                "買掛金": "debit",
-                "現金": "credit",
-                "売掛金": "credit",
-                "資本金": "debit"
-            }
-        }
-
-        zandaka = {}
-        for account_item in shiwakehyou["debit"]:
-            zandaka.update({account_item: 0})
-            
-        # for target_dict in mid_data:
-        #     account_item = target_dict["勘定科目"]
-        #     zandaka[account_item] += target_dict["金額"] * shiwakehyou[target_dict["仕分"]][account_item]
-
-        for key in motocho:
-            nanika = 0
-            nanika2 = 0
-            for target_dict in motocho[key]:
-                if target_dict["仕分"] == "debit":
-                    nanika += target_dict["金額"]
+                if nanika - nanika2 > 0:
+                    shiwake = "debit"
+                    kingaku = nanika - nanika2
                 else:
-                    nanika2 += target_dict["金額"]
+                    shiwake = "credit"
+                    kingaku = nanika2 - nanika
 
-            if nanika - nanika2 > 0:
-                shiwake = "debit"
-                kingaku = nanika - nanika2
-            else:
-                shiwake = "credit"
-                kingaku = nanika2 - nanika
-            
-            zandaka[key] = [kingaku, shiwake]
+                zandaka[key] = [kingaku, shiwake]
 
-        # for item in zandaka:
-        #     zandaka[item] = [zandaka[item], shiwakehyou2["credit"][item]]
-        
-        kamoku_list = []
-        for key in zandaka:
-            kamoku_list.append({"勘定科目": key, "金額": zandaka[key]})
+            # for item in zandaka:
+            #     zandaka[item] = [zandaka[item], shiwakehyou2["credit"][item]]
 
-        # kamoku_list = [
-        #     {"勘定科目": "未払金", "金額": [500, "debit"]},
-        #     {"勘定科目": "買掛金", "金額": [2500, "debit"]},
-        #     {"勘定科目": "現金", "金額": [1500, "credit"]},
-        #     {"勘定科目": "売掛金", "金額": [1500, "credit"]},
-        #     {"勘定科目": "資本金", "金額": [0, "debit"]}
-        # ]
+            kamoku_list = []
+            for key in zandaka:
+                kamoku_list.append({"勘定科目": key, "金額": zandaka[key]})
+
+            # kamoku_list = [
+            #     {"勘定科目": "未払金", "金額": [500, "debit"]},
+            #     {"勘定科目": "買掛金", "金額": [2500, "debit"]},
+            #     {"勘定科目": "現金", "金額": [1500, "credit"]},
+            #     {"勘定科目": "売掛金", "金額": [1500, "credit"]},
+            #     {"勘定科目": "資本金", "金額": [0, "debit"]}
+            # ]
 
 
 
