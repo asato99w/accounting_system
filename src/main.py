@@ -74,8 +74,8 @@ class AccountingSystem:
             kamokugoto_zandaka_dict[motocho_title] = [kingaku, shiwake]
         
         kamoku_list = []
-        for key in kamokugoto_zandaka_dict:
-            kamoku_list.append({"勘定科目": key, "金額": kamokugoto_zandaka_dict[key]})
+        for kamokumei in kamokugoto_zandaka_dict:
+            kamoku_list.append({"勘定科目": kamokumei, "金額": kamokugoto_zandaka_dict[kamokumei]})
         
         credit_list = ["現金", "売掛金"]
         for target_dict in kamoku_list:
