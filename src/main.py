@@ -84,14 +84,19 @@ class AccountingSystem:
         
             return  kamokugoto_zandaka_dict
         
+        def matomeru_kamoku_and_kingaku(kamokugoto_zandaka_dict):
+            dict_of_kamoku_and_kingaku_list = []
+            for kamokumei in kamokugoto_zandaka_dict:
+                dict_of_kamoku_and_kingaku_list.append({"勘定科目": kamokumei, "金額": kamokugoto_zandaka_dict[kamokumei]})
+            return dict_of_kamoku_and_kingaku_list
+        
         all_data = format_data(data)
         motocho_dict = create_motochou(all_data)
         kamokugoto_zandaka_dict = create_kamokugoto_zandaka_dict(motocho_dict)
+        dict_of_kamoku_and_kingaku_list = matomeru_kamoku_and_kingaku(kamokugoto_zandaka_dict)
 
         
-        dict_of_kamoku_and_kingaku_list = []
-        for kamokumei in kamokugoto_zandaka_dict:
-            dict_of_kamoku_and_kingaku_list.append({"勘定科目": kamokumei, "金額": kamokugoto_zandaka_dict[kamokumei]})
+       
         
         shisan_list = ["現金", "売掛金"]
         for kamoku_to_kingaku_dict in dict_of_kamoku_and_kingaku_list:
