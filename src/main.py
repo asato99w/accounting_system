@@ -2,7 +2,7 @@
 class AccountingSystem:
     def __init__(self):
         self.__all_data = []
-        self.kamoku_kubun_kingaku_list = []
+        self.__kamoku_kubun_kingaku_list = []
 
     def get_all_data(self):
         return self.__all_data
@@ -13,10 +13,10 @@ class AccountingSystem:
     def output_balance_sheet(self):
         header = "勘定科目,区分,金額\n"
         
-        if len(self.kamoku_kubun_kingaku_list) == 0:
+        if len(self.__kamoku_kubun_kingaku_list) == 0:
             return header
         
-        for item in self.kamoku_kubun_kingaku_list:
+        for item in self.__kamoku_kubun_kingaku_list:
             header += f'{item["勘定科目"]},{item["区分"]},{item["金額"]}\n'
         return header
 
@@ -98,17 +98,17 @@ class AccountingSystem:
             shisan_list = ["現金", "売掛金"]
             for kamoku_to_kingaku_dict in dict_of_kamoku_and_kingaku_list:
                 if kamoku_to_kingaku_dict["勘定科目"] in shisan_list:
-                    self.kamoku_kubun_kingaku_list.append({"勘定科目":kamoku_to_kingaku_dict["勘定科目"], "区分":"資産", "金額":kamoku_to_kingaku_dict["金額"][0]})
+                    self.__kamoku_kubun_kingaku_list.append({"勘定科目":kamoku_to_kingaku_dict["勘定科目"], "区分":"資産", "金額":kamoku_to_kingaku_dict["金額"][0]})
 
             debit_list = ["未払金", "買掛金"]
             for kamoku_to_kingaku_dict in dict_of_kamoku_and_kingaku_list:
                 if kamoku_to_kingaku_dict["勘定科目"] in debit_list:
-                    self.kamoku_kubun_kingaku_list.append({"勘定科目":kamoku_to_kingaku_dict["勘定科目"], "区分":"負債", "金額":kamoku_to_kingaku_dict["金額"][0]})
+                    self.__kamoku_kubun_kingaku_list.append({"勘定科目":kamoku_to_kingaku_dict["勘定科目"], "区分":"負債", "金額":kamoku_to_kingaku_dict["金額"][0]})
 
             debit_list = ["資本金"]
             for kamoku_to_kingaku_dict in dict_of_kamoku_and_kingaku_list:
                 if kamoku_to_kingaku_dict["勘定科目"] in debit_list:
-                    self.kamoku_kubun_kingaku_list.append({"勘定科目":kamoku_to_kingaku_dict["勘定科目"], "区分":"純資産", "金額":kamoku_to_kingaku_dict["金額"][0]})
+                    self.__kamoku_kubun_kingaku_list.append({"勘定科目":kamoku_to_kingaku_dict["勘定科目"], "区分":"純資産", "金額":kamoku_to_kingaku_dict["金額"][0]})
         
 
         
