@@ -1,13 +1,13 @@
 
 class AccountingSystem:
     def __init__(self):
-        self.all_data = []
+        self.__all_data = []
         self.kamoku_kubun_kingaku_list = []
 
     def get_all_data(self):
-        return self.all_data
+        return self.__all_data
     def append_all_data(self, arg):
-        self.all_data.append(arg)
+        self.__all_data.append(arg)
 
 
     def output_balance_sheet(self):
