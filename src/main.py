@@ -2,7 +2,6 @@
 class AccountingSystem:
     def __init__(self):
         self.__all_data = []
-        self.__kamoku_kubun_kingaku_list = []
         self.__motochou_dict = {
                 "未払金": [],
                 "買掛金": [],
@@ -10,6 +9,8 @@ class AccountingSystem:
                 "売掛金": [],
                 "資本金": []
             }
+        
+        self.__kamoku_kubun_kingaku_list = []
 
     def get_all_data(self):
         return self.__all_data
