@@ -73,7 +73,7 @@ class TestAccountingSystem(unittest.TestCase):
       accounting_system = AccountingSystem()
       accounting_system.input(data)
       result = accounting_system.output_balance_sheet()
-      expected = "勘定科目,区分,金額\n現金,資産,1000\n売掛金,資産,0\n未払金,負債,1000\n買掛金,負債,0\n"
+      expected = "勘定科目,区分,金額\n現金,資産,1000\n売掛金,資産,0\n未払金,負債,1000\n買掛金,負債,0\n資本金,純資産,0\n"
       assert result == expected
 
   def test_multi_debit_and_credit(self):
@@ -91,7 +91,7 @@ class TestAccountingSystem(unittest.TestCase):
     accounting_system = AccountingSystem()
     accounting_system.input(data)
     result = accounting_system.output_balance_sheet()
-    expected = "勘定科目,区分,金額\n現金,資産,3000\n売掛金,資産,0\n未払金,負債,500\n買掛金,負債,2500\n"
+    expected = "勘定科目,区分,金額\n現金,資産,3000\n売掛金,資産,0\n未払金,負債,500\n買掛金,負債,2500\n資本金,純資産,0\n"
     assert result == expected
 
   def test_multi_debit_and_multi_credit(self):
@@ -110,7 +110,7 @@ class TestAccountingSystem(unittest.TestCase):
     accounting_system = AccountingSystem()
     accounting_system.input(data)
     result = accounting_system.output_balance_sheet()
-    expected = "勘定科目,区分,金額\n現金,資産,1500\n売掛金,資産,1500\n未払金,負債,500\n買掛金,負債,2500\n"
+    expected = "勘定科目,区分,金額\n現金,資産,1500\n売掛金,資産,1500\n未払金,負債,500\n買掛金,負債,2500\n資本金,純資産,0\n"
     assert result == expected
 
   def test_debit_cash(self):
@@ -130,5 +130,46 @@ class TestAccountingSystem(unittest.TestCase):
     accounting_system = AccountingSystem()
     accounting_system.input(data)
     result = accounting_system.output_balance_sheet()
-    expected = "勘定科目,区分,金額\n現金,資産,1500\n売掛金,資産,1500\n未払金,負債,500\n買掛金,負債,2500\n"
+    expected = "勘定科目,区分,金額\n現金,資産,1500\n売掛金,資産,1500\n未払金,負債,500\n買掛金,負債,2500\n資本金,純資産,0\n"
     assert result == expected
+
+  def test_capital(self):
+    data = [
+            {
+              "debit": {
+                  "現金": 1000000
+              },
+              "credit": {
+                  "資本金": 1000000
+              }
+            }
+          ]
+    accounting_system = AccountingSystem()
+    accounting_system.input(data)
+    result = accounting_system.output_balance_sheet()
+    expected = (
+        "勘定科目,区分,金額\n"
+        "現金,資産,1000000\n"
+        "売掛金,資産,0\n"
+        "未払金,負債,0\n"
+        "買掛金,負債,0\n"
+        "資本金,純資産,1000000\n"
+    )
+    assert result == expected
+
+  def test_reverse_debit_and_credit(self):
+      data = [
+              {
+                "debit": {
+                  "現金": 1000
+                },
+                "credit": {
+                  "未払金": 1000,
+                },
+              }
+            ]
+      accounting_system = AccountingSystem()
+      accounting_system.input(data)
+      result = accounting_system.output_balance_sheet()
+      expected = "勘定科目,区分,金額\n現金,資産,1000\n売掛金,資産,0\n未払金,負債,1000\n買掛金,負債,0\n資本金,純資産,0\n"
+      assert result == expected
