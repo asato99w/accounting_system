@@ -19,9 +19,6 @@ class AccountingSystem:
             if not ("credit" in trade and "debit" in trade):
                 raise ValueError
 
-
-            self.list2 = []
-
             mid_data = []
             for key in trade["debit"]:
                 mid_data.append({"勘定科目": key, "仕分": "debit", "金額": trade["debit"][key]})
