@@ -27,12 +27,9 @@ class AccountingSystem:
             for trade in data:
                 if not ("credit" in trade and "debit" in trade):
                     raise ValueError
-
                 for kamokumei in trade["debit"]:
-                    
                     self.append_all_data({"勘定科目": kamokumei, "仕分": "debit", "金額": trade["debit"][kamokumei]})
-                for kamokumei in trade["credit"]:
-                    
+                for kamokumei in trade["credit"]:       
                     self.append_all_data({"勘定科目": kamokumei, "仕分": "credit", "金額": trade["credit"][kamokumei]})
         
 
