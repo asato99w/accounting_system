@@ -25,7 +25,7 @@ class AccountingSystem:
             for kamokumei in trade["credit"]:
                 all_data.append({"勘定科目": kamokumei, "仕分": "credit", "金額": trade["credit"][kamokumei]})
 
-        motocho = {
+        motocho_dict = {
                 "未払金": [],
                 "買掛金": [],
                 "現金": [],
@@ -33,9 +33,9 @@ class AccountingSystem:
                 "資本金": []
             }
         for kamokugoto_dict in all_data:
-            for key in motocho:
+            for key in motocho_dict:
                 if kamokugoto_dict["勘定科目"] == key:
-                    motocho[key].append(kamokugoto_dict)
+                    motocho_dict[key].append(kamokugoto_dict)
         shiwakehyou = {
             "debit": {
                 "未払金": 1,
@@ -72,10 +72,10 @@ class AccountingSystem:
         for account_item in shiwakehyou["debit"]:
             zandaka.update({account_item: 0})
         
-        for key in motocho:
+        for key in motocho_dict:
             nanika = 0
             nanika2 = 0
-            for target_dict in motocho[key]:
+            for target_dict in motocho_dict[key]:
                 if target_dict["仕分"] == "debit":
                     nanika += target_dict["金額"]
                 else:
