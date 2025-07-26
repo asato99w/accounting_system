@@ -15,15 +15,15 @@ class AccountingSystem:
 
 
     def input(self, data):
-        mid_data = []
+        all_data = []
         for trade in data:
             if not ("credit" in trade and "debit" in trade):
                 raise ValueError
 
             for key in trade["debit"]:
-                mid_data.append({"勘定科目": key, "仕分": "debit", "金額": trade["debit"][key]})
+                all_data.append({"勘定科目": key, "仕分": "debit", "金額": trade["debit"][key]})
             for key in trade["credit"]:
-                mid_data.append({"勘定科目": key, "仕分": "credit", "金額": trade["credit"][key]})
+                all_data.append({"勘定科目": key, "仕分": "credit", "金額": trade["credit"][key]})
 
         motocho = {
                 "未払金": [],
@@ -32,7 +32,7 @@ class AccountingSystem:
                 "売掛金": [],
                 "資本金": []
             }
-        for target_dict in mid_data:
+        for target_dict in all_data:
             for key in motocho:
                 if target_dict["勘定科目"] == key:
                     motocho[key].append(target_dict)
