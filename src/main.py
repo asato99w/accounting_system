@@ -53,19 +53,11 @@ class AccountingSystem:
                         self.append_list_in_motochou_dict(motocho_title, kamokugoto_dict)
 
 
-        def create_kamokugoto_zandaka_dict():
-            kamoku_list = {
-                "debit": {
-                    "未払金": 1,
-                    "買掛金": 1,
-                    "現金": -1,
-                    "売掛金": -1,
-                    "資本金": 1
-                }
-            }
+        def create_kamokugoto_zandaka_dict():        
+            kamoku_list = ["未払金", "買掛金", "現金", "売掛金", "資本金"]
 
             kamokugoto_zandaka_dict = {}
-            for account_item in kamoku_list["debit"]:
+            for account_item in kamoku_list:
                 kamokugoto_zandaka_dict.update({account_item: 0})
 
             for motocho_title in self.get_motochou_dict():
