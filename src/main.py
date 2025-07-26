@@ -3,7 +3,7 @@ class AccountingSystem:
     def __init__(self):
         self.__all_data = []
         self.__kamoku_kubun_kingaku_list = []
-        self.motochou_dict = {
+        self.__motochou_dict = {
                 "未払金": [],
                 "買掛金": [],
                 "現金": [],
@@ -17,9 +17,9 @@ class AccountingSystem:
         self.__all_data.append(arg)
 
     def get_motochou_dict(self):
-        return self.motochou_dict
+        return self.__motochou_dict
     def append_list_in_motochou_dict(self, motocho_title, arg):
-        self.motochou_dict[motocho_title].append(arg)
+        self.__motochou_dict[motocho_title].append(arg)
 
 
     def output_balance_sheet(self):
@@ -46,22 +46,13 @@ class AccountingSystem:
         
 
         def create_motochou():
-            motocho_dict = {
-                "未払金": [],
-                "買掛金": [],
-                "現金": [],
-                "売掛金": [],
-                "資本金": []
-            }
             for kamokugoto_dict in self.get_all_data():
-                for motocho_title in motocho_dict:
+                for motocho_title in self.get_motochou_dict():
                     if kamokugoto_dict["勘定科目"] == motocho_title:
-                        motocho_dict[motocho_title].append(kamokugoto_dict)
                         self.append_list_in_motochou_dict(motocho_title, kamokugoto_dict)
-            return motocho_dict
 
 
-        def create_kamokugoto_zandaka_dict(motocho_dict):
+        def create_kamokugoto_zandaka_dict():
             shiwakehyou = {
                 "debit": {
                     "未払金": 1,
@@ -126,8 +117,8 @@ class AccountingSystem:
 
         
         format_data(data)
-        motocho_dict = create_motochou()
-        kamokugoto_zandaka_dict = create_kamokugoto_zandaka_dict(motocho_dict)
+        create_motochou()
+        kamokugoto_zandaka_dict = create_kamokugoto_zandaka_dict()
         dict_of_kamoku_and_kingaku_list = matomeru_kamoku_and_kingaku(kamokugoto_zandaka_dict)
         make_balance_sheet(dict_of_kamoku_and_kingaku_list)
         
