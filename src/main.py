@@ -60,11 +60,11 @@ class AccountingSystem:
         for motocho_title in motocho_dict:
             karikata_goukei = 0
             kashikata_goukei = 0
-            for target_dict in motocho_dict[motocho_title]:
-                if target_dict["仕分"] == "debit":
-                    karikata_goukei += target_dict["金額"]
+            for kamokugoto_dict in motocho_dict[motocho_title]:
+                if kamokugoto_dict["仕分"] == "debit":
+                    karikata_goukei += kamokugoto_dict["金額"]
                 else:
-                    kashikata_goukei += target_dict["金額"]
+                    kashikata_goukei += kamokugoto_dict["金額"]
             if karikata_goukei - kashikata_goukei > 0:
                 shiwake = "debit"
                 kingaku = karikata_goukei - kashikata_goukei
