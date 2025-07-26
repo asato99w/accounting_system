@@ -57,10 +57,10 @@ class AccountingSystem:
         for account_item in shiwakehyou["debit"]:
             zandaka.update({account_item: 0})
         
-        for key in motocho_dict:
+        for motocho_title in motocho_dict:
             nanika = 0
             nanika2 = 0
-            for target_dict in motocho_dict[key]:
+            for target_dict in motocho_dict[motocho_title]:
                 if target_dict["仕分"] == "debit":
                     nanika += target_dict["金額"]
                 else:
@@ -71,7 +71,7 @@ class AccountingSystem:
             else:
                 shiwake = "credit"
                 kingaku = nanika2 - nanika
-            zandaka[key] = [kingaku, shiwake]
+            zandaka[motocho_title] = [kingaku, shiwake]
         
         kamoku_list = []
         for key in zandaka:
