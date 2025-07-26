@@ -24,22 +24,19 @@ class AccountingSystem:
     def input(self, data):
 
         def format_data(data):
-            all_data = []
             for trade in data:
                 if not ("credit" in trade and "debit" in trade):
                     raise ValueError
 
                 for kamokumei in trade["debit"]:
-                    all_data.append({"勘定科目": kamokumei, "仕分": "debit", "金額": trade["debit"][kamokumei]})
+                    
                     self.append_all_data({"勘定科目": kamokumei, "仕分": "debit", "金額": trade["debit"][kamokumei]})
                 for kamokumei in trade["credit"]:
-                    all_data.append({"勘定科目": kamokumei, "仕分": "credit", "金額": trade["credit"][kamokumei]})
+                    
                     self.append_all_data({"勘定科目": kamokumei, "仕分": "credit", "金額": trade["credit"][kamokumei]})
-
-            return all_data
         
 
-        def create_motochou(all_data):
+        def create_motochou():
             motocho_dict = {
                 "未払金": [],
                 "買掛金": [],
@@ -118,8 +115,8 @@ class AccountingSystem:
         
 
         
-        all_data = format_data(data)
-        motocho_dict = create_motochou(all_data)
+        format_data(data)
+        motocho_dict = create_motochou()
         kamokugoto_zandaka_dict = create_kamokugoto_zandaka_dict(motocho_dict)
         dict_of_kamoku_and_kingaku_list = matomeru_kamoku_and_kingaku(kamokugoto_zandaka_dict)
         make_balance_sheet(dict_of_kamoku_and_kingaku_list)
