@@ -46,42 +46,48 @@ class AccountingSystem:
 
         motocho_dict = create_motochou(all_data)
 
-        shiwakehyou = {
-            "debit": {
-                "未払金": 1,
-                "買掛金": 1,
-                "現金": -1,
-                "売掛金": -1,
-                "資本金": 1
-            },
-            "credit": {
-                "未払金": -1,
-                "買掛金": -1,
-                "現金": 1,
-                "売掛金": 1,
-                "資本金": -1
+        def create_kamokugoto_zandaka_dict(motocho_dict):
+            shiwakehyou = {
+                "debit": {
+                    "未払金": 1,
+                    "買掛金": 1,
+                    "現金": -1,
+                    "売掛金": -1,
+                    "資本金": 1
+                },
+                "credit": {
+                    "未払金": -1,
+                    "買掛金": -1,
+                    "現金": 1,
+                    "売掛金": 1,
+                    "資本金": -1
+                }
             }
-        }
-        
-        kamokugoto_zandaka_dict = {}
-        for account_item in shiwakehyou["debit"]:
-            kamokugoto_zandaka_dict.update({account_item: 0})
-        
-        for motocho_title in motocho_dict:
-            karikata_goukei = 0
-            kashikata_goukei = 0
-            for kamokugoto_dict in motocho_dict[motocho_title]:
-                if kamokugoto_dict["仕分"] == "debit":
-                    karikata_goukei += kamokugoto_dict["金額"]
+
+            kamokugoto_zandaka_dict = {}
+            for account_item in shiwakehyou["debit"]:
+                kamokugoto_zandaka_dict.update({account_item: 0})
+
+            for motocho_title in motocho_dict:
+                karikata_goukei = 0
+                kashikata_goukei = 0
+                for kamokugoto_dict in motocho_dict[motocho_title]:
+                    if kamokugoto_dict["仕分"] == "debit":
+                        karikata_goukei += kamokugoto_dict["金額"]
+                    else:
+                        kashikata_goukei += kamokugoto_dict["金額"]
+                if karikata_goukei - kashikata_goukei > 0:
+                    shiwake = "debit"
+                    kingaku = karikata_goukei - kashikata_goukei
                 else:
-                    kashikata_goukei += kamokugoto_dict["金額"]
-            if karikata_goukei - kashikata_goukei > 0:
-                shiwake = "debit"
-                kingaku = karikata_goukei - kashikata_goukei
-            else:
-                shiwake = "credit"
-                kingaku = kashikata_goukei - karikata_goukei
-            kamokugoto_zandaka_dict[motocho_title] = [kingaku, shiwake]
+                    shiwake = "credit"
+                    kingaku = kashikata_goukei - karikata_goukei
+                kamokugoto_zandaka_dict[motocho_title] = [kingaku, shiwake]
+        
+            return  kamokugoto_zandaka_dict
+        
+        kamokugoto_zandaka_dict = create_kamokugoto_zandaka_dict(motocho_dict)
+
         
         dict_of_kamoku_and_kingaku_list = []
         for kamokumei in kamokugoto_zandaka_dict:
