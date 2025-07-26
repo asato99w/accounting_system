@@ -19,8 +19,8 @@ class AccountingSystem:
 
     def get_motochou_dict(self):
         return self.__motochou_dict
-    def append_list_in_motochou_dict(self, motocho_title, arg):
-        self.__motochou_dict[motocho_title].append(arg)
+    def append_list_in_motochou_dict(self, motochou_title, arg):
+        self.__motochou_dict[motochou_title].append(arg)
 
 
     def output_balance_sheet(self):
@@ -60,10 +60,10 @@ class AccountingSystem:
             for account_item in kamoku_list:
                 kamokugoto_zandaka_dict.update({account_item: 0})
 
-            for motocho_title in self.get_motochou_dict():
+            def shukei_motochou(motochou_titel):
                 karikata_goukei = 0
                 kashikata_goukei = 0
-                for kamokugoto_dict in self.get_motochou_dict()[motocho_title]:
+                for kamokugoto_dict in self.get_motochou_dict()[motochou_titel]:
                     if kamokugoto_dict["仕分"] == "debit":
                         karikata_goukei += kamokugoto_dict["金額"]
                     else:
@@ -74,7 +74,10 @@ class AccountingSystem:
                 else:
                     shiwake = "credit"
                     kingaku = kashikata_goukei - karikata_goukei
-                kamokugoto_zandaka_dict[motocho_title] = [kingaku, shiwake]
+                return [kingaku, shiwake]
+
+            for motochou_title in self.get_motochou_dict():
+                kamokugoto_zandaka_dict[motochou_title] = shukei_motochou(motochou_title)
         
             return  kamokugoto_zandaka_dict
         
