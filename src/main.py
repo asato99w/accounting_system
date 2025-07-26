@@ -28,7 +28,6 @@ class AccountingSystem:
                     all_data.append({"勘定科目": kamokumei, "仕分": "credit", "金額": trade["credit"][kamokumei]})
             return all_data
         
-        all_data = format_data(data)
 
         def create_motochou(all_data):
             motocho_dict = {
@@ -44,7 +43,6 @@ class AccountingSystem:
                         motocho_dict[motocho_title].append(kamokugoto_dict)
             return motocho_dict
 
-        motocho_dict = create_motochou(all_data)
 
         def create_kamokugoto_zandaka_dict(motocho_dict):
             shiwakehyou = {
@@ -86,6 +84,8 @@ class AccountingSystem:
         
             return  kamokugoto_zandaka_dict
         
+        all_data = format_data(data)
+        motocho_dict = create_motochou(all_data)
         kamokugoto_zandaka_dict = create_kamokugoto_zandaka_dict(motocho_dict)
 
         
