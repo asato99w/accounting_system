@@ -52,22 +52,7 @@ class AccountingSystem:
                 "資本金": -1
             }
         }
-        shiwakehyou2 = {
-            "debit": {
-                "未払金": "debit",
-                "買掛金": "debit",
-                "現金": "credit",
-                "売掛金": "credit",
-                "資本金": "debit"
-            },
-            "credit": {
-                "未払金": "debit",
-                "買掛金": "debit",
-                "現金": "credit",
-                "売掛金": "credit",
-                "資本金": "debit"
-            }
-        }
+        
         zandaka = {}
         for account_item in shiwakehyou["debit"]:
             zandaka.update({account_item: 0})
