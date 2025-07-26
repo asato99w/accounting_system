@@ -71,9 +71,7 @@ class AccountingSystem:
         zandaka = {}
         for account_item in shiwakehyou["debit"]:
             zandaka.update({account_item: 0})
-        # for target_dict in mid_data:
-        #     account_item = target_dict["勘定科目"]
-        #     zandaka[account_item] += target_dict["金額"] * shiwakehyou[target_dict["仕分"]][account_item]
+        
         for key in motocho:
             nanika = 0
             nanika2 = 0
@@ -89,20 +87,11 @@ class AccountingSystem:
                 shiwake = "credit"
                 kingaku = nanika2 - nanika
             zandaka[key] = [kingaku, shiwake]
-        # for item in zandaka:
-        #     zandaka[item] = [zandaka[item], shiwakehyou2["credit"][item]]
+        
         kamoku_list = []
         for key in zandaka:
             kamoku_list.append({"勘定科目": key, "金額": zandaka[key]})
-        # kamoku_list = [
-        #     {"勘定科目": "未払金", "金額": [500, "debit"]},
-        #     {"勘定科目": "買掛金", "金額": [2500, "debit"]},
-        #     {"勘定科目": "現金", "金額": [1500, "credit"]},
-        #     {"勘定科目": "売掛金", "金額": [1500, "credit"]},
-        #     {"勘定科目": "資本金", "金額": [0, "debit"]}
-        # ]
-
-
+        
         credit_list = ["現金", "売掛金"]
         for target_dict in kamoku_list:
             if target_dict["勘定科目"] in credit_list:
