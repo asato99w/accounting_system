@@ -49,6 +49,26 @@ class AccountingSystem:
         for item in self.__kamoku_kubun_kingaku_list:
             header += f'{item["勘定科目"]},{item["区分"]},{item["金額"]}\n'
         return header
+    
+    def output_pl(self):
+
+
+        header = "勘定科目,区分,金額\n"
+
+        pl_content_dict_list = [
+            {"勘定科目": "売上", "区分": "収益", "金額": 200000},
+            {"勘定科目": "売上", "区分": "費用", "金額": 50000},
+            {"勘定科目": "売上", "区分": "純利益", "金額": 150000}
+        ]
+
+        content = (
+        "売上,収益,200000\n"
+        "給料,費用,50000\n"
+        "当期純利益,純利益,150000\n"
+    )
+        
+        header += content
+        return header
 
 
     def input(self, data):
@@ -77,13 +97,12 @@ class AccountingSystem:
             for account_item in kamoku_list:
                 kamokugoto_zandaka_dict.update({account_item: 0})
 
-            
-
             for motochou_title in self.get_motochou_dict():
                 kamokugoto_zandaka_dict[motochou_title] = self.shukei_motochou(motochou_title)
         
             return  kamokugoto_zandaka_dict
         
+        # この役割意味不明
         def matomeru_kamoku_and_kingaku(kamokugoto_zandaka_dict):
             dict_of_kamoku_and_kingaku_list = []
             for kamokumei in kamokugoto_zandaka_dict:

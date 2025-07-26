@@ -25,7 +25,7 @@ class TestPl(unittest.TestCase):
 
     accounting_system = AccountingSystem()
     accounting_system.input(data)
-    result = accounting_system.output_income_statement()
+    result = accounting_system.output_pl()
 
     expected = (
         "勘定科目,区分,金額\n"
