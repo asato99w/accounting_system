@@ -47,7 +47,7 @@ class AccountingSystem:
                 "売掛金": [],
                 "資本金": []
             }
-            for kamokugoto_dict in all_data:
+            for kamokugoto_dict in self.get_all_data():
                 for motocho_title in motocho_dict:
                     if kamokugoto_dict["勘定科目"] == motocho_title:
                         motocho_dict[motocho_title].append(kamokugoto_dict)
