@@ -1,4 +1,4 @@
-
+# test
 class AccountingSystem:
     def __init__(self):
         self.__all_data = []
