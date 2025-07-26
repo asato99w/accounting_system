@@ -16,6 +16,7 @@ class AccountingSystem:
 
     def input(self, data):
         mid_data = []
+        zandaka = {}
         for trade in data:
             if not ("credit" in trade and "debit" in trade):
                 raise ValueError
@@ -72,7 +73,6 @@ class AccountingSystem:
                 }
             }
 
-            zandaka = {}
             for account_item in shiwakehyou["debit"]:
                 zandaka.update({account_item: 0})
 
