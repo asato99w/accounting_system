@@ -53,9 +53,9 @@ class AccountingSystem:
             }
         }
         
-        zandaka = {}
+        kamokugoto_zandaka_dict = {}
         for account_item in shiwakehyou["debit"]:
-            zandaka.update({account_item: 0})
+            kamokugoto_zandaka_dict.update({account_item: 0})
         
         for motocho_title in motocho_dict:
             karikata_goukei = 0
@@ -71,11 +71,11 @@ class AccountingSystem:
             else:
                 shiwake = "credit"
                 kingaku = kashikata_goukei - karikata_goukei
-            zandaka[motocho_title] = [kingaku, shiwake]
+            kamokugoto_zandaka_dict[motocho_title] = [kingaku, shiwake]
         
         kamoku_list = []
-        for key in zandaka:
-            kamoku_list.append({"勘定科目": key, "金額": zandaka[key]})
+        for key in kamokugoto_zandaka_dict:
+            kamoku_list.append({"勘定科目": key, "金額": kamokugoto_zandaka_dict[key]})
         
         credit_list = ["現金", "売掛金"]
         for target_dict in kamoku_list:
