@@ -31,8 +31,11 @@ class AccountingSystem:
 
                 for kamokumei in trade["debit"]:
                     all_data.append({"勘定科目": kamokumei, "仕分": "debit", "金額": trade["debit"][kamokumei]})
+                    self.append_all_data({"勘定科目": kamokumei, "仕分": "debit", "金額": trade["debit"][kamokumei]})
                 for kamokumei in trade["credit"]:
                     all_data.append({"勘定科目": kamokumei, "仕分": "credit", "金額": trade["credit"][kamokumei]})
+                    self.append_all_data({"勘定科目": kamokumei, "仕分": "credit", "金額": trade["credit"][kamokumei]})
+
             return all_data
         
 
