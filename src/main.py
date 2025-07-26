@@ -15,15 +15,20 @@ class AccountingSystem:
 
 
     def input(self, data):
-        all_data = []
-        for trade in data:
-            if not ("credit" in trade and "debit" in trade):
-                raise ValueError
 
-            for kamokumei in trade["debit"]:
-                all_data.append({"勘定科目": kamokumei, "仕分": "debit", "金額": trade["debit"][kamokumei]})
-            for kamokumei in trade["credit"]:
-                all_data.append({"勘定科目": kamokumei, "仕分": "credit", "金額": trade["credit"][kamokumei]})
+        def format_data(data):
+            all_data = []
+            for trade in data:
+                if not ("credit" in trade and "debit" in trade):
+                    raise ValueError
+
+                for kamokumei in trade["debit"]:
+                    all_data.append({"勘定科目": kamokumei, "仕分": "debit", "金額": trade["debit"][kamokumei]})
+                for kamokumei in trade["credit"]:
+                    all_data.append({"勘定科目": kamokumei, "仕分": "credit", "金額": trade["credit"][kamokumei]})
+            return all_data
+        
+        all_data = format_data(data)
 
         motocho_dict = {
                 "未払金": [],
