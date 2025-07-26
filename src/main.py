@@ -33,9 +33,9 @@ class AccountingSystem:
                 "資本金": []
             }
         for kamokugoto_dict in all_data:
-            for key in motocho_dict:
-                if kamokugoto_dict["勘定科目"] == key:
-                    motocho_dict[key].append(kamokugoto_dict)
+            for motocho_title in motocho_dict:
+                if kamokugoto_dict["勘定科目"] == motocho_title:
+                    motocho_dict[motocho_title].append(kamokugoto_dict)
         shiwakehyou = {
             "debit": {
                 "未払金": 1,
