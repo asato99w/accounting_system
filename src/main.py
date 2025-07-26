@@ -77,9 +77,9 @@ class AccountingSystem:
         for kamokumei in kamokugoto_zandaka_dict:
             kamoku_list.append({"勘定科目": kamokumei, "金額": kamokugoto_zandaka_dict[kamokumei]})
         
-        credit_list = ["現金", "売掛金"]
+        shisan_list = ["現金", "売掛金"]
         for target_dict in kamoku_list:
-            if target_dict["勘定科目"] in credit_list:
+            if target_dict["勘定科目"] in shisan_list:
                 self.list2.append({"勘定科目":target_dict["勘定科目"], "区分":"資産", "金額":target_dict["金額"][0]})
 
         debit_list = ["未払金", "買掛金"]
