@@ -23,6 +23,23 @@ class AccountingSystem:
         self.__motochou_dict[motochou_title].append(arg)
 
 
+    def shukei_motochou(self, motochou_titel):
+        karikata_goukei = 0
+        kashikata_goukei = 0
+        for kamokugoto_dict in self.get_motochou_dict()[motochou_titel]:
+            if kamokugoto_dict["仕分"] == "debit":
+                karikata_goukei += kamokugoto_dict["金額"]
+            else:
+                kashikata_goukei += kamokugoto_dict["金額"]
+        if karikata_goukei - kashikata_goukei > 0:
+            shiwake = "debit"
+            kingaku = karikata_goukei - kashikata_goukei
+        else:
+            shiwake = "credit"
+            kingaku = kashikata_goukei - karikata_goukei
+        return [kingaku, shiwake]
+
+
     def output_balance_sheet(self):
         header = "勘定科目,区分,金額\n"
         
@@ -60,24 +77,10 @@ class AccountingSystem:
             for account_item in kamoku_list:
                 kamokugoto_zandaka_dict.update({account_item: 0})
 
-            def shukei_motochou(motochou_titel):
-                karikata_goukei = 0
-                kashikata_goukei = 0
-                for kamokugoto_dict in self.get_motochou_dict()[motochou_titel]:
-                    if kamokugoto_dict["仕分"] == "debit":
-                        karikata_goukei += kamokugoto_dict["金額"]
-                    else:
-                        kashikata_goukei += kamokugoto_dict["金額"]
-                if karikata_goukei - kashikata_goukei > 0:
-                    shiwake = "debit"
-                    kingaku = karikata_goukei - kashikata_goukei
-                else:
-                    shiwake = "credit"
-                    kingaku = kashikata_goukei - karikata_goukei
-                return [kingaku, shiwake]
+            
 
             for motochou_title in self.get_motochou_dict():
-                kamokugoto_zandaka_dict[motochou_title] = shukei_motochou(motochou_title)
+                kamokugoto_zandaka_dict[motochou_title] = self.shukei_motochou(motochou_title)
         
             return  kamokugoto_zandaka_dict
         
