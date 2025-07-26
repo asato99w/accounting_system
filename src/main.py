@@ -54,7 +54,7 @@ class AccountingSystem:
 
 
         def create_kamokugoto_zandaka_dict():
-            shiwakehyou = {
+            kamoku_list = {
                 "debit": {
                     "未払金": 1,
                     "買掛金": 1,
@@ -65,7 +65,7 @@ class AccountingSystem:
             }
 
             kamokugoto_zandaka_dict = {}
-            for account_item in shiwakehyou["debit"]:
+            for account_item in kamoku_list["debit"]:
                 kamokugoto_zandaka_dict.update({account_item: 0})
 
             for motocho_title in self.get_motochou_dict():
