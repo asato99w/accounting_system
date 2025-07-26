@@ -30,17 +30,22 @@ class AccountingSystem:
         
         all_data = format_data(data)
 
-        motocho_dict = {
+        def create_motochou(all_data):
+            motocho_dict = {
                 "未払金": [],
                 "買掛金": [],
                 "現金": [],
                 "売掛金": [],
                 "資本金": []
             }
-        for kamokugoto_dict in all_data:
-            for motocho_title in motocho_dict:
-                if kamokugoto_dict["勘定科目"] == motocho_title:
-                    motocho_dict[motocho_title].append(kamokugoto_dict)
+            for kamokugoto_dict in all_data:
+                for motocho_title in motocho_dict:
+                    if kamokugoto_dict["勘定科目"] == motocho_title:
+                        motocho_dict[motocho_title].append(kamokugoto_dict)
+            return motocho_dict
+
+        motocho_dict = create_motochou(all_data)
+
         shiwakehyou = {
             "debit": {
                 "未払金": 1,
