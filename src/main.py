@@ -3,6 +3,12 @@ class AccountingSystem:
     def __init__(self):
         self.kamoku_kubun_kingaku_list = []
 
+    def get_all_data():
+        pass
+    def set_all_data(arg):
+        pass
+
+
     def output_balance_sheet(self):
         header = "勘定科目,区分,金額\n"
         
