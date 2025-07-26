@@ -73,22 +73,22 @@ class AccountingSystem:
                 kingaku = kashikata_goukei - karikata_goukei
             kamokugoto_zandaka_dict[motocho_title] = [kingaku, shiwake]
         
-        dict_of_kamoku_to_kingaku_list = []
+        dict_of_kamoku_and_kingaku_list = []
         for kamokumei in kamokugoto_zandaka_dict:
-            dict_of_kamoku_to_kingaku_list.append({"勘定科目": kamokumei, "金額": kamokugoto_zandaka_dict[kamokumei]})
+            dict_of_kamoku_and_kingaku_list.append({"勘定科目": kamokumei, "金額": kamokugoto_zandaka_dict[kamokumei]})
         
         shisan_list = ["現金", "売掛金"]
-        for kamoku_to_kingaku_dict in dict_of_kamoku_to_kingaku_list:
+        for kamoku_to_kingaku_dict in dict_of_kamoku_and_kingaku_list:
             if kamoku_to_kingaku_dict["勘定科目"] in shisan_list:
                 self.kamoku_kubun_kingaku_list.append({"勘定科目":kamoku_to_kingaku_dict["勘定科目"], "区分":"資産", "金額":kamoku_to_kingaku_dict["金額"][0]})
 
         debit_list = ["未払金", "買掛金"]
-        for kamoku_to_kingaku_dict in dict_of_kamoku_to_kingaku_list:
+        for kamoku_to_kingaku_dict in dict_of_kamoku_and_kingaku_list:
             if kamoku_to_kingaku_dict["勘定科目"] in debit_list:
                 self.kamoku_kubun_kingaku_list.append({"勘定科目":kamoku_to_kingaku_dict["勘定科目"], "区分":"負債", "金額":kamoku_to_kingaku_dict["金額"][0]})
 
         debit_list = ["資本金"]
-        for kamoku_to_kingaku_dict in dict_of_kamoku_to_kingaku_list:
+        for kamoku_to_kingaku_dict in dict_of_kamoku_and_kingaku_list:
             if kamoku_to_kingaku_dict["勘定科目"] in debit_list:
                 self.kamoku_kubun_kingaku_list.append({"勘定科目":kamoku_to_kingaku_dict["勘定科目"], "区分":"純資産", "金額":kamoku_to_kingaku_dict["金額"][0]})
     
