@@ -107,18 +107,21 @@ class AccountingSystem:
         def make_balance_sheet(dict_of_kamoku_and_kingaku_list):
             shisan_list = ["現金", "売掛金"]
             for kamoku_to_kingaku_dict in dict_of_kamoku_and_kingaku_list:
+                increase_or_decrease = 1 if kamoku_to_kingaku_dict["金額"][1] == "debit" else -1
                 if kamoku_to_kingaku_dict["勘定科目"] in shisan_list:
-                    self.__kamoku_kubun_kingaku_list.append({"勘定科目":kamoku_to_kingaku_dict["勘定科目"], "区分":"資産", "金額":kamoku_to_kingaku_dict["金額"][0]})
+                    self.__kamoku_kubun_kingaku_list.append({"勘定科目":kamoku_to_kingaku_dict["勘定科目"], "区分":"資産", "金額":kamoku_to_kingaku_dict["金額"][0] * increase_or_decrease})
 
             debit_list = ["未払金", "買掛金"]
             for kamoku_to_kingaku_dict in dict_of_kamoku_and_kingaku_list:
+                increase_or_decrease = 1 if kamoku_to_kingaku_dict["金額"][1] == "credit" else -1
                 if kamoku_to_kingaku_dict["勘定科目"] in debit_list:
-                    self.__kamoku_kubun_kingaku_list.append({"勘定科目":kamoku_to_kingaku_dict["勘定科目"], "区分":"負債", "金額":kamoku_to_kingaku_dict["金額"][0]})
+                    self.__kamoku_kubun_kingaku_list.append({"勘定科目":kamoku_to_kingaku_dict["勘定科目"], "区分":"負債", "金額":kamoku_to_kingaku_dict["金額"][0] * increase_or_decrease})
 
-            debit_list = ["資本金"]
+            equity_list = ["資本金"]
             for kamoku_to_kingaku_dict in dict_of_kamoku_and_kingaku_list:
-                if kamoku_to_kingaku_dict["勘定科目"] in debit_list:
-                    self.__kamoku_kubun_kingaku_list.append({"勘定科目":kamoku_to_kingaku_dict["勘定科目"], "区分":"純資産", "金額":kamoku_to_kingaku_dict["金額"][0]})
+                increase_or_decrease = 1 if kamoku_to_kingaku_dict["金額"][1] == "credit" else -1
+                if kamoku_to_kingaku_dict["勘定科目"] in equity_list:
+                    self.__kamoku_kubun_kingaku_list.append({"勘定科目":kamoku_to_kingaku_dict["勘定科目"], "区分":"純資産", "金額":kamoku_to_kingaku_dict["金額"][0] * increase_or_decrease})
         
 
         
