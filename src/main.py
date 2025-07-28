@@ -91,35 +91,54 @@ class AccountingSystem:
         for kamokumei in kamokugoto_zandaka_dict:
             dict_of_kamoku_and_kingaku_list.append({"勘定科目": kamokumei, "金額": kamokugoto_zandaka_dict[kamokumei]})
 
+        def create_bs(worksheet, accounts, account_type):
+            if account_type == "資産":
+                side = "debit"
+            elif account_type == "負債":
+                side = "credit"
+            elif account_type == "純資産":
+                side = "credit"
+            elif account_type == "収益":
+                side = "credit"
+            elif account_type == "費用":
+                side = "debit"
+
+            result = []
+            for row in worksheet:
+                if row["勘定科目"] in accounts:
+                    increase_or_decrease = 1 if row["金額"][1] == side else -1
+                    result.append({"勘定科目":row["勘定科目"], "区分":account_type, "金額":row["金額"][0] * increase_or_decrease})
+            return result
+            
+        def create_pl(worksheet, accounts, account_type):
+            side = "credit" if account_type == "収益" else "debit"
+
+            result = []
+            for row in worksheet:
+                if row["勘定科目"] in accounts and row["金額"][0] != 0:
+                    increase_or_decrease = 1 if row["金額"][1] == side else -1
+                    result.append({"勘定科目":row["勘定科目"], "区分":account_type, "金額":row["金額"][0] * increase_or_decrease})
+            return result
+
         shisan_list = ["現金", "売掛金"]
-        for kamoku_to_kingaku_dict in dict_of_kamoku_and_kingaku_list:
-            increase_or_decrease = 1 if kamoku_to_kingaku_dict["金額"][1] == "debit" else -1
-            if kamoku_to_kingaku_dict["勘定科目"] in shisan_list:
-                self.__kamoku_kubun_kingaku_list.append({"勘定科目":kamoku_to_kingaku_dict["勘定科目"], "区分":"資産", "金額":kamoku_to_kingaku_dict["金額"][0] * increase_or_decrease})
+        assets_balance = create_bs(dict_of_kamoku_and_kingaku_list, shisan_list, "資産")
+        self.__kamoku_kubun_kingaku_list.extend(assets_balance)
 
         debit_list = ["未払金", "買掛金"]
-        for kamoku_to_kingaku_dict in dict_of_kamoku_and_kingaku_list:
-            increase_or_decrease = 1 if kamoku_to_kingaku_dict["金額"][1] == "credit" else -1
-            if kamoku_to_kingaku_dict["勘定科目"] in debit_list:
-                self.__kamoku_kubun_kingaku_list.append({"勘定科目":kamoku_to_kingaku_dict["勘定科目"], "区分":"負債", "金額":kamoku_to_kingaku_dict["金額"][0] * increase_or_decrease})
+        liabilities_balance = create_bs(dict_of_kamoku_and_kingaku_list, debit_list, "負債")
+        self.__kamoku_kubun_kingaku_list.extend(liabilities_balance)
 
         equity_list = ["資本金"]
-        for kamoku_to_kingaku_dict in dict_of_kamoku_and_kingaku_list:
-            increase_or_decrease = 1 if kamoku_to_kingaku_dict["金額"][1] == "credit" else -1
-            if kamoku_to_kingaku_dict["勘定科目"] in equity_list:
-                self.__kamoku_kubun_kingaku_list.append({"勘定科目":kamoku_to_kingaku_dict["勘定科目"], "区分":"純資産", "金額":kamoku_to_kingaku_dict["金額"][0] * increase_or_decrease})
+        equity_balance = create_bs(dict_of_kamoku_and_kingaku_list, equity_list, "純資産")
+        self.__kamoku_kubun_kingaku_list.extend(equity_balance)
     
         profit_list = ["売上", "受取利息"]
-        for kamoku_to_kingaku_dict in dict_of_kamoku_and_kingaku_list:
-            increase_or_decrease = 1 if kamoku_to_kingaku_dict["金額"][1] == "credit" else -1
-            if kamoku_to_kingaku_dict["勘定科目"] in profit_list and kamoku_to_kingaku_dict["金額"][0] != 0:
-                self.__pl_content_dict_list.append({"勘定科目":kamoku_to_kingaku_dict["勘定科目"], "区分":"収益", "金額":kamoku_to_kingaku_dict["金額"][0] * increase_or_decrease})
+        profit_content = create_pl(dict_of_kamoku_and_kingaku_list, profit_list, "収益")
+        self.__pl_content_dict_list.extend(profit_content)
         
         expense_list = ["給料", "地代家賃", "水道光熱費"]
-        for kamoku_to_kingaku_dict in dict_of_kamoku_and_kingaku_list:
-            increase_or_decrease = 1 if kamoku_to_kingaku_dict["金額"][1] == "debit" else -1
-            if kamoku_to_kingaku_dict["勘定科目"] in expense_list and kamoku_to_kingaku_dict["金額"][0] != 0:
-                self.__pl_content_dict_list.append({"勘定科目":kamoku_to_kingaku_dict["勘定科目"], "区分":"費用", "金額":kamoku_to_kingaku_dict["金額"][0] * increase_or_decrease})
+        expense_content = create_pl(dict_of_kamoku_and_kingaku_list, expense_list, "費用")
+        self.__pl_content_dict_list.extend(expense_content)
 
         net_income = 0
         for item in self.__pl_content_dict_list:
@@ -130,10 +149,23 @@ class AccountingSystem:
 
         if net_income > 0:
             self.__pl_content_dict_list.append({"勘定科目": "当期純利益", "区分": "純利益", "金額": net_income})
+            self.__kamoku_kubun_kingaku_list.append({"勘定科目": "利益剰余金", "区分": "純資産", "金額": net_income})
         elif net_income < 0:
             self.__pl_content_dict_list.append({"勘定科目": "当期純損失", "区分": "純損失", "金額": net_income * -1})
+            self.__kamoku_kubun_kingaku_list.append({"勘定科目": "利益剰余金", "区分": "純資産", "金額": net_income})
 
 
+class AccountType:
+    ASSET = "資産"
+    LIABILITY = "負債"
+    EQUITY = "純資産"
+    REVENUE = "収益"
+    EXPENSE = "費用"
 
-       
+    def __init__(self, account_type, accounts):
+        self.account_type = account_type
+        self.accounts = accounts
+
+class Side:
+    DEBIT = "debit"
         
