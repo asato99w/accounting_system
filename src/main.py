@@ -2,26 +2,23 @@ from .account_type import Asset, Liability, Equity, Revenue, Expense
 
 class AccountingSystem:
     def __init__(self):
-        self.__pl_content_dict_list = []
-        self.__kamoku_kubun_kingaku_list = []
-
+        self.__fs = None
 
     def output_balance_sheet(self):
         header = "勘定科目,区分,金額\n"
-        
-        if len(self.__kamoku_kubun_kingaku_list) == 0:
+        if self.__fs is None:
             return header
         
-        for item in self.__kamoku_kubun_kingaku_list:
+        for item in self.__fs.get_bs().get_line_items():
             header += f'{item["勘定科目"]},{item["区分"]},{item["金額"]}\n'
         return header
     
     def output_pl(self):
-
-
         header = "勘定科目,区分,金額\n"
-
-        for item in self.__pl_content_dict_list:
+        if self.__fs is None:
+            return header
+        
+        for item in self.__fs.get_pl().get_line_items():
             header += f'{item["勘定科目"]},{item["区分"]},{item["金額"]}\n'
         return header
 
@@ -92,11 +89,18 @@ class AccountingSystem:
         for kamokumei in kamokugoto_zandaka_dict:
             dict_of_kamoku_and_kingaku_list.append({"勘定科目": kamokumei, "金額": kamokugoto_zandaka_dict[kamokumei]})
 
-        pl = ProfitAndLoss(dict_of_kamoku_and_kingaku_list)
-        self.__pl_content_dict_list = pl.get_line_items()
+        self.__fs = FinancialStatements(dict_of_kamoku_and_kingaku_list)
 
-        bs = BalanceSheet(dict_of_kamoku_and_kingaku_list, pl)
-        self.__kamoku_kubun_kingaku_list = bs.get_line_items()
+class FinancialStatements:
+    def __init__(self, worksheet):
+        self.__pl = ProfitAndLoss(worksheet)
+        self.__bs = BalanceSheet(worksheet, self.__pl)
+
+    def get_pl(self):
+        return self.__pl
+
+    def get_bs(self):
+        return self.__bs
 
 class ProfitAndLoss:
     def __init__(self, worksheet):
