@@ -91,54 +91,15 @@ class AccountingSystem:
         for kamokumei in kamokugoto_zandaka_dict:
             dict_of_kamoku_and_kingaku_list.append({"勘定科目": kamokumei, "金額": kamokugoto_zandaka_dict[kamokumei]})
 
-        def create_bs(worksheet, accounts, account_type):
-            if account_type == "資産":
-                side = "debit"
-            elif account_type == "負債":
-                side = "credit"
-            elif account_type == "純資産":
-                side = "credit"
-            elif account_type == "収益":
-                side = "credit"
-            elif account_type == "費用":
-                side = "debit"
+        balance_sheet_account_types = [Asset(), Liability(), Equity()]
+        for account_type in balance_sheet_account_types:
+            balance_sheet_content = account_type.create_statement(dict_of_kamoku_and_kingaku_list)
+            self.__kamoku_kubun_kingaku_list.extend(balance_sheet_content)
 
-            result = []
-            for row in worksheet:
-                if row["勘定科目"] in accounts:
-                    increase_or_decrease = 1 if row["金額"][1] == side else -1
-                    result.append({"勘定科目":row["勘定科目"], "区分":account_type, "金額":row["金額"][0] * increase_or_decrease})
-            return result
-            
-        def create_pl(worksheet, accounts, account_type):
-            side = "credit" if account_type == "収益" else "debit"
-
-            result = []
-            for row in worksheet:
-                if row["勘定科目"] in accounts and row["金額"][0] != 0:
-                    increase_or_decrease = 1 if row["金額"][1] == side else -1
-                    result.append({"勘定科目":row["勘定科目"], "区分":account_type, "金額":row["金額"][0] * increase_or_decrease})
-            return result
-
-        shisan_list = ["現金", "売掛金"]
-        assets_balance = create_bs(dict_of_kamoku_and_kingaku_list, shisan_list, "資産")
-        self.__kamoku_kubun_kingaku_list.extend(assets_balance)
-
-        debit_list = ["未払金", "買掛金"]
-        liabilities_balance = create_bs(dict_of_kamoku_and_kingaku_list, debit_list, "負債")
-        self.__kamoku_kubun_kingaku_list.extend(liabilities_balance)
-
-        equity_list = ["資本金"]
-        equity_balance = create_bs(dict_of_kamoku_and_kingaku_list, equity_list, "純資産")
-        self.__kamoku_kubun_kingaku_list.extend(equity_balance)
-    
-        profit_list = ["売上", "受取利息"]
-        profit_content = create_pl(dict_of_kamoku_and_kingaku_list, profit_list, "収益")
-        self.__pl_content_dict_list.extend(profit_content)
-        
-        expense_list = ["給料", "地代家賃", "水道光熱費"]
-        expense_content = create_pl(dict_of_kamoku_and_kingaku_list, expense_list, "費用")
-        self.__pl_content_dict_list.extend(expense_content)
+        profit_and_expense_account_types = [Revenue(), Expense()]
+        for account_type in profit_and_expense_account_types:
+            profit_and_expense_content = account_type.create_statement(dict_of_kamoku_and_kingaku_list)
+            self.__pl_content_dict_list.extend(profit_and_expense_content)
 
         net_income = 0
         for item in self.__pl_content_dict_list:
@@ -162,10 +123,60 @@ class AccountType:
     REVENUE = "収益"
     EXPENSE = "費用"
 
-    def __init__(self, account_type, accounts):
-        self.account_type = account_type
-        self.accounts = accounts
+    def __init__(self, account_type, accounts, skip_zero=False):
+        self.__account_type = account_type
+        self.__accounts = accounts
+        self.__skip_zero = skip_zero
+        self.__side = self.__set_side(account_type)
 
-class Side:
-    DEBIT = "debit"
+    def __set_side(self, account_type):
+        if account_type == "資産":
+            self.__side = "debit"
+        elif account_type == "負債":
+            self.__side = "credit"
+        elif account_type == "純資産":
+            self.__side = "credit"
+        elif account_type == "収益":
+            self.__side = "credit"
+        elif account_type == "費用":
+            self.__side = "debit"
+        return self.__side
+
+    def create_statement(self, worksheet):
+        result = []
+        for row in worksheet:
+            if self.__skip_zero and row["金額"][0] == 0:
+                continue
+
+            if row["勘定科目"] in self.__accounts:
+                increase_or_decrease = 1 if row["金額"][1] == self.__side else -1
+                result.append({"勘定科目":row["勘定科目"], "区分":self.__account_type, "金額":row["金額"][0] * increase_or_decrease})
+        return result
+
+
+class Asset(AccountType):
+    accounts = ["現金", "売掛金"]
+    def __init__(self, skip_zero=False):
+        super().__init__(AccountType.ASSET, self.accounts, skip_zero)
+
+class Liability(AccountType):
+    accounts = ["未払金", "買掛金"]
+    def __init__(self, skip_zero=False):
+        super().__init__(AccountType.LIABILITY, self.accounts, skip_zero)
+
+class Equity(AccountType):
+    accounts = ["資本金"]
+    def __init__(self, skip_zero=False):
+        super().__init__(AccountType.EQUITY, self.accounts, skip_zero)
+
+class Revenue(AccountType):
+    accounts = ["売上", "受取利息"]
+    def __init__(self, skip_zero=True):
+        super().__init__(AccountType.REVENUE, self.accounts, skip_zero)
+
+class Expense(AccountType):
+    accounts = ["給料", "地代家賃", "水道光熱費"]
+    def __init__(self, skip_zero=True):
+        super().__init__(AccountType.EXPENSE, self.accounts, skip_zero)
+
         
