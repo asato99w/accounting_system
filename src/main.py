@@ -12,7 +12,7 @@ class AccountingSystem:
         for item in self.__fs.get_bs().get_line_items():
             header += f'{item["勘定科目"]},{item["区分"]},{item["金額"]}\n'
         return header
-    
+
     def output_pl(self):
         header = "勘定科目,区分,金額\n"
         if self.__fs is None:
@@ -21,7 +21,6 @@ class AccountingSystem:
         for item in self.__fs.get_pl().get_line_items():
             header += f'{item["勘定科目"]},{item["区分"]},{item["金額"]}\n'
         return header
-
 
     def input(self, data):
 
@@ -88,6 +87,7 @@ class AccountingSystem:
         dict_of_kamoku_and_kingaku_list = []
         for kamokumei in kamokugoto_zandaka_dict:
             dict_of_kamoku_and_kingaku_list.append({"勘定科目": kamokumei, "金額": kamokugoto_zandaka_dict[kamokumei]})
+
 
         self.__fs = FinancialStatements(dict_of_kamoku_and_kingaku_list)
 
