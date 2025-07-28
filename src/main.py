@@ -1,5 +1,5 @@
 from .account_type import Asset, Liability, Equity, Revenue, Expense
-from .csv import CSVExporter
+from .csv_exporter import CSVExporter
 from .financial_statements import FinancialStatements
 
 class AccountingSystem:
@@ -21,37 +21,6 @@ class AccountingSystem:
 
     def input(self, data):
 
-        def format_data(data):
-            result = []
-            for trade in data:
-                if not ("credit" in trade and "debit" in trade):
-                    raise ValueError
-
-                for kamokumei in trade["debit"]:
-                    result.append({"勘定科目": kamokumei, "仕分": "debit", "金額": trade["debit"][kamokumei]})
-                for kamokumei in trade["credit"]:       
-                    result.append({"勘定科目": kamokumei, "仕分": "credit", "金額": trade["credit"][kamokumei]})
-            return result
-
-        def create_motochou(data):
-            motocho_dict = {
-                "未払金": [],
-                "買掛金": [],
-                "現金": [],
-                "売掛金": [],
-                "資本金": [],
-                "売上": [],
-                "受取利息": [],
-                "給料": [],
-                "地代家賃": [],
-                "水道光熱費": []
-            }
-            for kamokugoto_dict in data:
-                for motocho_title in motocho_dict:
-                    if kamokugoto_dict["勘定科目"] == motocho_title:
-                        motocho_dict[motocho_title].append(kamokugoto_dict)
-            return motocho_dict
-
         def shukei_motochou(motochou_titel, motochou_dict):
             karikata_goukei = 0
             kashikata_goukei = 0
@@ -69,8 +38,9 @@ class AccountingSystem:
             return [kingaku, shiwake]
 
         
-        formated_data = format_data(data)
-        motochou_dict = create_motochou(formated_data)
+        jb = JournalBook()
+        jb.make_entries(data)
+        motochou_dict = jb.create_general_ledger()
 
         kamoku_list = ["未払金", "買掛金", "現金", "売掛金", "資本金", "売上", "受取利息", "給料", "地代家賃", "水道光熱費"]
 
@@ -87,3 +57,37 @@ class AccountingSystem:
 
 
         self.__fs = FinancialStatements(dict_of_kamoku_and_kingaku_list)
+
+class JournalBook:
+    def __init__(self):
+        self.__entries = []
+
+    def __get_entries(self):
+        return self.__entries
+
+    def make_a_entry(self, entry):
+        self.__entries.append(entry)
+
+    def make_entries(self, entries):
+        for entry in entries:
+            if not ("credit" in entry and "debit" in entry):
+                raise ValueError
+
+            for kamokumei in entry["debit"]:
+                self.__entries.append({"勘定科目": kamokumei, "仕分": "debit", "金額": entry["debit"][kamokumei]})
+            for kamokumei in entry["credit"]:
+                self.__entries.append({"勘定科目": kamokumei, "仕分": "credit", "金額": entry["credit"][kamokumei]})
+
+    def create_general_ledger(self):
+        result = {}
+        account_items = ["未払金", "買掛金", "現金", "売掛金", "資本金", "売上", "受取利息", "給料", "地代家賃", "水道光熱費"]
+
+        for account_item in account_items:
+            result.update({account_item: []})
+
+        for entry in self.__get_entries():
+            for account_item in account_items:
+                if entry["勘定科目"] == account_item:
+                    result[account_item].append(entry)
+
+        return result
