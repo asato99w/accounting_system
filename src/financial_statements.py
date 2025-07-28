@@ -5,16 +5,17 @@ class FinancialStatements:
         self.__pl = ProfitAndLoss(worksheet)
         self.__bs = BalanceSheet(worksheet, self.__pl)
 
-    def get_pl(self):
+    def __get_pl(self):
         return self.__pl
 
-    def get_bs(self):
+    def __get_bs(self):
         return self.__bs
 
     def export_pl(self, exporter):
-        exporter.set_header("勘定科目,区分,金額")
-        exporter.set_rows(self.__pl.get_line_items())
-        return exporter.export()
+        return self.__pl.export(exporter)
+
+    def export_bs(self, exporter):
+        return self.__bs.export(exporter)
 
 class ProfitAndLoss:
     def __init__(self, worksheet):
@@ -56,11 +57,16 @@ class ProfitAndLoss:
     def is_loss(self):
         return self.__net_income < 0
 
-    def get_line_items(self):
+    def __get_line_items(self):
         return self.__line_items
 
     def get_net_income(self):
         return self.__net_income
+
+    def export(self, exporter):
+        exporter.set_header("勘定科目,区分,金額")
+        exporter.set_rows(self.__get_line_items())
+        return exporter.export()
 
 class BalanceSheet:
     def __init__(self, worksheet, pl):
@@ -82,5 +88,10 @@ class BalanceSheet:
 
         return line_items
 
-    def get_line_items(self):
+    def __get_line_items(self):
         return self.__line_items
+
+    def export(self, exporter):
+        exporter.set_header("勘定科目,区分,金額")
+        exporter.set_rows(self.__get_line_items())
+        return exporter.export()

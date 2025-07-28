@@ -1,5 +1,5 @@
 from .account_type import Asset, Liability, Equity, Revenue, Expense
-from .csv import CSV
+from .csv import CSVExporter
 from .financial_statements import FinancialStatements
 
 class AccountingSystem:
@@ -10,16 +10,13 @@ class AccountingSystem:
         if self.__fs is None:
             return "勘定科目,区分,金額\n"
 
-        csv = CSV()
-        csv.set_header("勘定科目,区分,金額")
-        csv.set_rows(self.__fs.get_bs().get_line_items())
-        return csv.export()
+        return self.__fs.export_bs(CSVExporter())
 
     def output_pl(self):
         if self.__fs is None:
             return "勘定科目,区分,金額\n"
 
-        return self.__fs.export_pl(CSV())
+        return self.__fs.export_pl(CSVExporter())
 
 
     def input(self, data):

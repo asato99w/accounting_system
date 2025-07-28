@@ -1,5 +1,4 @@
-
-class CSV:
+class CSVExporter:
     def __init__(self):
         self.__header = None
         self.__rows = None
