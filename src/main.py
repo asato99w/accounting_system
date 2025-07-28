@@ -95,25 +95,10 @@ class AccountingSystem:
         pl = ProfitAndLoss(dict_of_kamoku_and_kingaku_list)
         self.__pl_content_dict_list = pl.get_line_items()
 
-        # 貸借対照表の計算
-        line_items = []
-        balance_sheet_account_types = [Asset(), Liability(), Equity()]
-        for account_type in balance_sheet_account_types:
-            balance_sheet_content = account_type.create_statement(dict_of_kamoku_and_kingaku_list)
-            line_items.extend(balance_sheet_content)
-
-        net_income = pl.get_net_income()
-
-        if net_income > 0:
-            line_items.append({"勘定科目": "利益剰余金", "区分": "純資産", "金額": net_income})
-        elif net_income < 0:
-            line_items.append({"勘定科目": "利益剰余金", "区分": "純資産", "金額": net_income})
-
-        self.__kamoku_kubun_kingaku_list = line_items
-
+        bs = BalanceSheet(dict_of_kamoku_and_kingaku_list, pl)
+        self.__kamoku_kubun_kingaku_list = bs.get_line_items()
 
 class ProfitAndLoss:
-
     def __init__(self, worksheet):
         self.__profit_and_expense_account_types = [Revenue(), Expense()]
 
@@ -158,3 +143,26 @@ class ProfitAndLoss:
 
     def get_net_income(self):
         return self.__net_income
+
+class BalanceSheet:
+    def __init__(self, worksheet, pl):
+        self.__balance_sheet_account_types = [Asset(), Liability(), Equity()]
+        self.__pl = pl
+
+        self.__line_items = self.__create_line_items(worksheet)
+
+    def __create_line_items(self, worksheet):
+        line_items = []
+        for account_type in self.__balance_sheet_account_types:
+            balance_sheet_content = account_type.create_statement(worksheet)
+            line_items.extend(balance_sheet_content)
+
+        if self.__pl.is_profit():
+            line_items.append({"勘定科目": "利益剰余金", "区分": "純資産", "金額": self.__pl.get_net_income()})
+        elif self.__pl.is_loss():
+            line_items.append({"勘定科目": "利益剰余金", "区分": "純資産", "金額": self.__pl.get_net_income()})
+
+        return line_items
+
+    def get_line_items(self):
+        return self.__line_items
