@@ -47,7 +47,10 @@ class AccountingSystem:
                 "売掛金": [],
                 "資本金": [],
                 "売上": [],
-                "給料": []
+                "受取利息": [],
+                "給料": [],
+                "地代家賃": [],
+                "水道光熱費": []
             }
             for kamokugoto_dict in data:
                 for motocho_title in motocho_dict:
@@ -75,7 +78,7 @@ class AccountingSystem:
         formated_data = format_data(data)
         motochou_dict = create_motochou(formated_data)
 
-        kamoku_list = ["未払金", "買掛金", "現金", "売掛金", "資本金", "売上", "給料"]
+        kamoku_list = ["未払金", "買掛金", "現金", "売掛金", "資本金", "売上", "受取利息", "給料", "地代家賃", "水道光熱費"]
 
         kamokugoto_zandaka_dict = {}
         for account_item in kamoku_list:
@@ -106,19 +109,29 @@ class AccountingSystem:
             if kamoku_to_kingaku_dict["勘定科目"] in equity_list:
                 self.__kamoku_kubun_kingaku_list.append({"勘定科目":kamoku_to_kingaku_dict["勘定科目"], "区分":"純資産", "金額":kamoku_to_kingaku_dict["金額"][0] * increase_or_decrease})
     
-        profit_list = ["売上"]
+        profit_list = ["売上", "受取利息"]
         for kamoku_to_kingaku_dict in dict_of_kamoku_and_kingaku_list:
             increase_or_decrease = 1 if kamoku_to_kingaku_dict["金額"][1] == "credit" else -1
-            if kamoku_to_kingaku_dict["勘定科目"] in profit_list:
+            if kamoku_to_kingaku_dict["勘定科目"] in profit_list and kamoku_to_kingaku_dict["金額"][0] != 0:
                 self.__pl_content_dict_list.append({"勘定科目":kamoku_to_kingaku_dict["勘定科目"], "区分":"収益", "金額":kamoku_to_kingaku_dict["金額"][0] * increase_or_decrease})
         
-        expense_list = ["給料"]
+        expense_list = ["給料", "地代家賃", "水道光熱費"]
         for kamoku_to_kingaku_dict in dict_of_kamoku_and_kingaku_list:
             increase_or_decrease = 1 if kamoku_to_kingaku_dict["金額"][1] == "debit" else -1
-            if kamoku_to_kingaku_dict["勘定科目"] in expense_list:
+            if kamoku_to_kingaku_dict["勘定科目"] in expense_list and kamoku_to_kingaku_dict["金額"][0] != 0:
                 self.__pl_content_dict_list.append({"勘定科目":kamoku_to_kingaku_dict["勘定科目"], "区分":"費用", "金額":kamoku_to_kingaku_dict["金額"][0] * increase_or_decrease})
 
-        self.__pl_content_dict_list.append({"勘定科目": "当期純利益", "区分": "純利益", "金額": 150000})
+        net_income = 0
+        for item in self.__pl_content_dict_list:
+            if item["区分"] == "収益":
+                net_income += item["金額"]
+            elif item["区分"] == "費用":
+                net_income -= item["金額"]
+
+        if net_income > 0:
+            self.__pl_content_dict_list.append({"勘定科目": "当期純利益", "区分": "純利益", "金額": net_income})
+        elif net_income < 0:
+            self.__pl_content_dict_list.append({"勘定科目": "当期純損失", "区分": "純損失", "金額": net_income * -1})
 
 
 
