@@ -4,32 +4,26 @@ from .financial_statements import FinancialStatements
 
 class AccountingSystem:
     def __init__(self):
-        self.__fs = None
+        self.__jb = JournalBook()
+        self.__gl = self.__jb.create_general_ledger()
 
     def output_balance_sheet(self):
-        if self.__fs is None:
-            return "勘定科目,区分,金額\n"
-
+        self.__fs = FinancialStatements(self.__gl.create_trial_balance())
         return self.__fs.export_bs(CSVExporter())
 
     def output_pl(self):
-        if self.__fs is None:
-            return "勘定科目,区分,金額\n"
-
+        self.__fs = FinancialStatements(self.__gl.create_trial_balance())
         return self.__fs.export_pl(CSVExporter())
 
 
-    def input(self, data):
-        jb = JournalBook()
-        jb.make_entries(data)
-        gl = GeneralLedger(jb.create_general_ledger())
-        tb = gl.create_trial_balance()
-        self.__fs = FinancialStatements(tb)
+    def input(self, entries):
+        self.__jb.make_entries(entries)
+        self.__gl = self.__jb.create_general_ledger()
 
 class JournalBook:
     def __init__(self):
-        self.__entries = []
         self.__account_items = ["未払金", "買掛金", "現金", "売掛金", "資本金", "売上", "受取利息", "給料", "地代家賃", "水道光熱費"]
+        self.__entries = []
 
     def __get_entries(self):
         return self.__entries
@@ -58,7 +52,7 @@ class JournalBook:
                 if entry["勘定科目"] == account_item:
                     result[account_item].append(entry)
 
-        return result
+        return GeneralLedger(result)
 
 class GeneralLedger:
     def __init__(self, ledgers):

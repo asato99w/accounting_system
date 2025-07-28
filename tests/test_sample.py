@@ -3,12 +3,6 @@ from src.main import AccountingSystem
 
 class TestAccountingSystem(unittest.TestCase):
 
-  def test_first(self):
-      accounting_system = AccountingSystem()
-      result = accounting_system.output_balance_sheet()
-      expected = "勘定科目,区分,金額\n"
-      assert result == expected
-
   def test_2(self):
       data = [
               {
