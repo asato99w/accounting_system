@@ -11,6 +11,11 @@ class FinancialStatements:
     def get_bs(self):
         return self.__bs
 
+    def export_pl(self, exporter):
+        exporter.set_header("勘定科目,区分,金額")
+        exporter.set_rows(self.__pl.get_line_items())
+        return exporter.export()
+
 class ProfitAndLoss:
     def __init__(self, worksheet):
         self.__profit_and_expense_account_types = [Revenue(), Expense()]
