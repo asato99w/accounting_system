@@ -27,12 +27,12 @@ class AccountType:
     def create_statement(self, worksheet):
         result = []
         for row in worksheet:
-            if self.__skip_zero and row["金額"][0] == 0:
+            if self.__skip_zero and row["残高"][0] == 0:
                 continue
 
             if row["勘定科目"] in self.__accounts:
-                increase_or_decrease = 1 if row["金額"][1] == self.__side else -1
-                result.append({"勘定科目":row["勘定科目"], "区分":self.__account_type, "金額":row["金額"][0] * increase_or_decrease})
+                increase_or_decrease = 1 if row["残高"][1] == self.__side else -1
+                result.append({"勘定科目":row["勘定科目"], "区分":self.__account_type, "金額":row["残高"][0] * increase_or_decrease})
         return result
 
 

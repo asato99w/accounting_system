@@ -20,47 +20,16 @@ class AccountingSystem:
 
 
     def input(self, data):
-
-        def shukei_motochou(motochou_titel, motochou_dict):
-            karikata_goukei = 0
-            kashikata_goukei = 0
-            for kamokugoto_dict in motochou_dict[motochou_titel]:
-                if kamokugoto_dict["仕分"] == "debit":
-                    karikata_goukei += kamokugoto_dict["金額"]
-                else:
-                    kashikata_goukei += kamokugoto_dict["金額"]
-            if karikata_goukei - kashikata_goukei > 0:
-                shiwake = "debit"
-                kingaku = karikata_goukei - kashikata_goukei
-            else:
-                shiwake = "credit"
-                kingaku = kashikata_goukei - karikata_goukei
-            return [kingaku, shiwake]
-
-        
         jb = JournalBook()
         jb.make_entries(data)
-        motochou_dict = jb.create_general_ledger()
-
-        kamoku_list = ["未払金", "買掛金", "現金", "売掛金", "資本金", "売上", "受取利息", "給料", "地代家賃", "水道光熱費"]
-
-        kamokugoto_zandaka_dict = {}
-        for account_item in kamoku_list:
-            kamokugoto_zandaka_dict.update({account_item: 0})
-
-        for motochou_title in motochou_dict:
-            kamokugoto_zandaka_dict[motochou_title] = shukei_motochou(motochou_title, motochou_dict)
-
-        dict_of_kamoku_and_kingaku_list = []
-        for kamokumei in kamokugoto_zandaka_dict:
-            dict_of_kamoku_and_kingaku_list.append({"勘定科目": kamokumei, "金額": kamokugoto_zandaka_dict[kamokumei]})
-
-
-        self.__fs = FinancialStatements(dict_of_kamoku_and_kingaku_list)
+        gl = GeneralLedger(jb.create_general_ledger())
+        tb = gl.create_trial_balance()
+        self.__fs = FinancialStatements(tb)
 
 class JournalBook:
     def __init__(self):
         self.__entries = []
+        self.__account_items = ["未払金", "買掛金", "現金", "売掛金", "資本金", "売上", "受取利息", "給料", "地代家賃", "水道光熱費"]
 
     def __get_entries(self):
         return self.__entries
@@ -73,21 +42,53 @@ class JournalBook:
             if not ("credit" in entry and "debit" in entry):
                 raise ValueError
 
-            for kamokumei in entry["debit"]:
-                self.__entries.append({"勘定科目": kamokumei, "仕分": "debit", "金額": entry["debit"][kamokumei]})
-            for kamokumei in entry["credit"]:
-                self.__entries.append({"勘定科目": kamokumei, "仕分": "credit", "金額": entry["credit"][kamokumei]})
+            for account_item in entry["debit"]:
+                self.__entries.append({"勘定科目": account_item, "仕分": "debit", "金額": entry["debit"][account_item]})
+            for account_item in entry["credit"]:
+                self.__entries.append({"勘定科目": account_item, "仕分": "credit", "金額": entry["credit"][account_item]})
 
     def create_general_ledger(self):
         result = {}
-        account_items = ["未払金", "買掛金", "現金", "売掛金", "資本金", "売上", "受取利息", "給料", "地代家賃", "水道光熱費"]
 
-        for account_item in account_items:
+        for account_item in self.__account_items:
             result.update({account_item: []})
 
         for entry in self.__get_entries():
-            for account_item in account_items:
+            for account_item in self.__account_items:
                 if entry["勘定科目"] == account_item:
                     result[account_item].append(entry)
 
         return result
+
+class GeneralLedger:
+    def __init__(self, ledgers):
+        self.__ledgers = ledgers
+
+    def create_trial_balance(self):
+        balances = {}
+
+        for account_item in self.__ledgers:
+            balances[account_item] = self.__calculate_amount(account_item)
+
+        result = []
+        for account_item in balances:
+            result.append({"勘定科目": account_item, "残高": balances[account_item]})
+
+        return result
+
+    def __calculate_amount(self, account_item):
+        credit_amount = 0
+        debit_amount = 0
+        for entry in self.__ledgers[account_item]:
+            if entry["仕分"] == "debit":
+                debit_amount += entry["金額"]
+            else:
+                credit_amount += entry["金額"]
+
+        if debit_amount - credit_amount > 0:
+            side = "debit"
+            amount = debit_amount - credit_amount
+        else:
+            side = "credit"
+            amount = credit_amount - debit_amount
+        return [amount, side]
