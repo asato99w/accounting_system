@@ -1,26 +1,22 @@
 from .account_type import Asset, Liability, Equity, Revenue, Expense
+from .csv import CSV
 
 class AccountingSystem:
     def __init__(self):
         self.__fs = None
 
     def output_balance_sheet(self):
-        header = "勘定科目,区分,金額\n"
         if self.__fs is None:
-            return header
-        
-        for item in self.__fs.get_bs().get_line_items():
-            header += f'{item["勘定科目"]},{item["区分"]},{item["金額"]}\n'
-        return header
+            return "勘定科目,区分,金額\n"
+
+        return CSV("勘定科目,区分,金額", self.__fs.get_bs().get_line_items()).output()
 
     def output_pl(self):
-        header = "勘定科目,区分,金額\n"
         if self.__fs is None:
-            return header
-        
-        for item in self.__fs.get_pl().get_line_items():
-            header += f'{item["勘定科目"]},{item["区分"]},{item["金額"]}\n'
-        return header
+            return "勘定科目,区分,金額\n"
+
+        return CSV("勘定科目,区分,金額", self.__fs.get_pl().get_line_items()).output()
+
 
     def input(self, data):
 
