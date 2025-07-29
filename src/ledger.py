@@ -7,9 +7,9 @@ class GeneralLedger:
         for account_item in journal_book.get_account_items():
             postings = []
             for posting in journal_book.get_postings():
-                if posting["勘定科目"] == account_item:
+                if posting.get_account_item() == account_item:
                     postings.append(posting)
-            ledgere_accounts.append(LedgerAccount({"勘定科目": account_item, "転記内容": postings}))
+            ledgere_accounts.append(LedgerAccount(account_item, postings))
         return ledgere_accounts
 
 
@@ -17,7 +17,7 @@ class GeneralLedger:
         balances = {}
 
         for ledger in self.__ledger_accounts:
-            balances[ledger.get_account_item()] = ledger.get_amount()
+            balances[ledger.get_account_item()] = ledger.get_balance()
 
         result = []
         for account_item in balances:
@@ -26,28 +26,27 @@ class GeneralLedger:
         return result
 
 class LedgerAccount:
-    def __init__(self, ledger):
-        self.ledger = ledger
-        self.__account_item = ledger["勘定科目"]
-        self.__entries = ledger["転記内容"]
+    def __init__(self, account_item, postings):
+        self.__account_item = account_item
+        self.__postings = postings
 
     def get_account_item(self):
         return self.__account_item
 
-    def get_amount(self):
-        debit_amount = self.__calculate_debit_amount()
-        credit_amount = self.__calculate_credit_amount()
+    def get_balance(self):
+        debit_balance = self.__calculate_debit_balance()
+        credit_balance = self.__calculate_credit_balance()
 
-        if debit_amount - credit_amount > 0:
+        if debit_balance - credit_balance > 0:
             side = "debit"
-            amount = debit_amount - credit_amount
+            balance = debit_balance - credit_balance
         else:
             side = "credit"
-            amount = credit_amount - debit_amount
-        return [amount, side]
+            balance = credit_balance - debit_balance
+        return [balance, side]
 
-    def __calculate_debit_amount(self):
-        return sum(entry["金額"] for entry in self.__entries if entry["仕分"] == "debit")
+    def __calculate_debit_balance(self):
+        return sum(posting.get_amount() for posting in self.__postings if posting.get_side() == "debit")
 
-    def __calculate_credit_amount(self):
-        return sum(entry["金額"] for entry in self.__entries if entry["仕分"] == "credit")
+    def __calculate_credit_balance(self):
+        return sum(posting.get_amount() for posting in self.__postings if posting.get_side() == "credit")
