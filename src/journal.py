@@ -29,13 +29,14 @@ class CompoundJournalEntry:
     def __init__(self, data):
         if not ("credit" in data and "debit" in data):
             raise ValueError
-        self.__debit = data["debit"]
-        self.__credit = data["credit"]
+        self.__debit_postings = self.__create_postings(data, "debit")
+        self.__credit_postings = self.__create_postings(data, "credit")
+
+    def __create_postings(self, data, side):
+        postings = []
+        for account_item in data[side]:
+            postings.append({"勘定科目": account_item, "仕分": side, "金額": data[side][account_item]})
+        return postings
 
     def get_postings(self):
-        postings = []
-        for account_item in self.__debit:
-            postings.append({"勘定科目": account_item, "仕分": "debit", "金額": self.__debit[account_item]})
-        for account_item in self.__credit:
-            postings.append({"勘定科目": account_item, "仕分": "credit", "金額": self.__credit[account_item]})
-        return postings
+        return self.__debit_postings + self.__credit_postings
