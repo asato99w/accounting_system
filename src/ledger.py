@@ -25,9 +25,6 @@ class LedgerAccount:
     def get_account_item(self):
         return self.__account_item
 
-    def get_entries(self):
-        return self.__entries
-
     def get_amount(self):
         debit_amount = self.__calculate_debit_amount()
         credit_amount = self.__calculate_credit_amount()
