@@ -8,35 +8,27 @@ class JournalBook:
     def __get_entries(self):
         return self.__entries
 
+    def get_account_items(self):
+        return self.__account_items
+
     def make_a_entry(self, entry):
         self.__entries.append(entry)
 
     def make_entries(self, entries):
         for entry in entries:
-            if not ("credit" in entry and "debit" in entry):
-                raise ValueError
-            entry = CompoundJournalEntry(entry)
             self.make_a_entry(entry)
 
-    def create_general_ledger(self):
+    def get_postings(self):
         postings = []
         for entry in self.__entries:
             postings.extend(entry.get_postings())
-
-        result = {}
-        for account_item in self.__account_items:
-            result.update({account_item: []})
-
-        for posting in postings:
-            for account_item in result:
-                if posting["勘定科目"] == account_item:
-                    result[account_item].append(posting)
-
-        return GeneralLedger(result)
+        return postings
 
 
 class CompoundJournalEntry:
     def __init__(self, data):
+        if not ("credit" in data and "debit" in data):
+            raise ValueError
         self.__debit = data["debit"]
         self.__credit = data["credit"]
 

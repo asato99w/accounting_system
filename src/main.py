@@ -1,11 +1,12 @@
 from .financial_statements import FinancialStatements
 from .csv_exporter import CSVExporter
-from .journal import JournalBook
+from .journal import JournalBook, CompoundJournalEntry
+from .ledger import GeneralLedger
 
 class AccountingSystem:
     def __init__(self):
         self.__jb = JournalBook()
-        self.__gl = self.__jb.create_general_ledger()
+        self.__gl = GeneralLedger(self.__jb)
 
     def output_balance_sheet(self):
         self.__fs = FinancialStatements(self.__gl.create_trial_balance())
@@ -16,6 +17,7 @@ class AccountingSystem:
         return self.__fs.export_pl(CSVExporter())
 
 
-    def input(self, entries):
+    def input(self, datas):
+        entries = [CompoundJournalEntry(data) for data in datas]
         self.__jb.make_entries(entries)
-        self.__gl = self.__jb.create_general_ledger()
+        self.__gl = GeneralLedger(self.__jb)

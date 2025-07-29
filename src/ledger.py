@@ -1,13 +1,22 @@
 class GeneralLedger:
-    def __init__(self, ledgers):
-        self.__ledgers= []
-        for account_item in ledgers:
-            self.__ledgers.append(LedgerAccount({"勘定科目": account_item, "記入内容": ledgers[account_item]}))
+    def __init__(self, journal_book):
+        self.__ledger_accounts = self.__create_legeder_accounts(journal_book)
+
+    def __create_legeder_accounts(self, journal_book):
+        ledgere_accounts = []
+        for account_item in journal_book.get_account_items():
+            postings = []
+            for posting in journal_book.get_postings():
+                if posting["勘定科目"] == account_item:
+                    postings.append(posting)
+            ledgere_accounts.append(LedgerAccount({"勘定科目": account_item, "転記内容": postings}))
+        return ledgere_accounts
+
 
     def create_trial_balance(self):
         balances = {}
 
-        for ledger in self.__ledgers:
+        for ledger in self.__ledger_accounts:
             balances[ledger.get_account_item()] = ledger.get_amount()
 
         result = []
@@ -20,7 +29,7 @@ class LedgerAccount:
     def __init__(self, ledger):
         self.ledger = ledger
         self.__account_item = ledger["勘定科目"]
-        self.__entries = ledger["記入内容"]
+        self.__entries = ledger["転記内容"]
 
     def get_account_item(self):
         return self.__account_item
