@@ -4,10 +4,10 @@ class GeneralLedger:
 
     def __create_legeder_accounts(self, journal_book):
         ledgere_accounts = []
-        for account_item in journal_book.get_account_items():
+        for account_item in journal_book.get_account_items().get_items():
             postings = []
             for posting in journal_book.get_postings():
-                if posting.get_account_item() == account_item:
+                if posting.get_account_item().get_name() == account_item.get_name():
                     postings.append(posting)
             ledgere_accounts.append(LedgerAccount(account_item, postings))
         return ledgere_accounts
@@ -17,7 +17,7 @@ class GeneralLedger:
         balances = {}
 
         for ledger in self.__ledger_accounts:
-            balances[ledger.get_account_item()] = ledger.get_balance()
+            balances[ledger.get_account_item().get_name()] = ledger.get_balance()
 
         result = []
         for account_item in balances:

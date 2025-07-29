@@ -18,6 +18,6 @@ class AccountingSystem:
 
 
     def input(self, datas):
-        entries = [CompoundJournalEntry(data) for data in datas]
+        entries = [CompoundJournalEntry(data, self.__jb.get_account_items()) for data in datas]
         self.__jb.make_entries(entries)
         self.__gl = GeneralLedger(self.__jb)

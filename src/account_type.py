@@ -35,7 +35,6 @@ class AccountType:
                 result.append({"勘定科目":row["勘定科目"], "区分":self.__account_type, "金額":row["残高"][0] * increase_or_decrease})
         return result
 
-
 class Asset(AccountType):
     accounts = ["現金", "売掛金"]
     def __init__(self, skip_zero=False):
@@ -57,7 +56,7 @@ class Revenue(AccountType):
         super().__init__(AccountType.REVENUE, self.accounts, skip_zero)
 
 class Expense(AccountType):
-    accounts = ["給料", "地代家賃", "水道光熱費"]
+    accounts = ["給料", "地代家賃", "水道光熱費", "仕入"]
     def __init__(self, skip_zero=True):
         super().__init__(AccountType.EXPENSE, self.accounts, skip_zero)
 

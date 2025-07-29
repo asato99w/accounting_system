@@ -232,7 +232,8 @@ class TestBSPLIntegration(unittest.TestCase):
             "売上,収益,1000000\n"
             "受取利息,収益,10000\n"
             "給料,費用,400000\n"
-            "当期純利益,純利益,610000\n"  # 1010000 - 400000
+            "仕入,費用,300000\n"
+            "当期純利益,純利益,310000\n"  # 1010000 - 400000 - 300000
         )
         self.assertEqual(pl_result, expected_pl)
 
@@ -245,7 +246,7 @@ class TestBSPLIntegration(unittest.TestCase):
             "未払金,負債,100000\n"
             "買掛金,負債,150000\n"  # 300000 - 150000
             "資本金,純資産,2000000\n"
-            "利益剰余金,純資産,610000\n"  # 純利益が利益剰余金として計上される
+            "利益剰余金,純資産,310000\n"  # 純利益が利益剰余金として計上される
         )
         self.assertEqual(bs_result, expected_bs)
 
