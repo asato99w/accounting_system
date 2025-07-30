@@ -19,10 +19,10 @@ class AccountItems:
                 return AccountItem(name, Equity())
         for account_name in Revenue.accounts:
             if account_name == name:
-                return AccountItem(name, Revenue(skip_zero=True))
+                return AccountItem(name, Revenue())
         for account_name in Expense.accounts:
             if account_name == name:
-                return AccountItem(name, Expense(skip_zero=True))
+                return AccountItem(name, Expense())
         raise ValueError
 
     def get_items(self):
@@ -41,3 +41,12 @@ class AccountItem:
 
     def get_name(self):
         return self.__name
+
+    def get_side(self):
+        return self.__account_type.get_side()
+
+    def calculate_balance_delta(self, posting):
+        if posting.get_side() == self.get_side():
+            return posting.get_amount()
+        else:
+            return posting.get_amount() * -1

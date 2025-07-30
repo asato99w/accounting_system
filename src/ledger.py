@@ -14,14 +14,9 @@ class GeneralLedger:
 
 
     def create_trial_balance(self):
-        balances = {}
-
-        for ledger in self.__ledger_accounts:
-            balances[ledger.get_account_item().get_name()] = ledger.get_balance()
-
         result = []
-        for account_item in balances:
-            result.append({"勘定科目": account_item, "残高": balances[account_item]})
+        for account_item in self.__ledger_accounts:
+            result.append({"勘定科目": account_item.get_account_item().get_name(), "残高": account_item.get_balance()})
 
         return result
 
@@ -34,19 +29,5 @@ class LedgerAccount:
         return self.__account_item
 
     def get_balance(self):
-        debit_balance = self.__calculate_debit_balance()
-        credit_balance = self.__calculate_credit_balance()
-
-        if debit_balance - credit_balance > 0:
-            side = "debit"
-            balance = debit_balance - credit_balance
-        else:
-            side = "credit"
-            balance = credit_balance - debit_balance
-        return [balance, side]
-
-    def __calculate_debit_balance(self):
-        return sum(posting.get_amount() for posting in self.__postings if posting.get_side() == "debit")
-
-    def __calculate_credit_balance(self):
-        return sum(posting.get_amount() for posting in self.__postings if posting.get_side() == "credit")
+        balance = sum(self.__account_item.calculate_balance_delta(posting) for posting in self.__postings)
+        return balance
