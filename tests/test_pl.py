@@ -24,7 +24,7 @@ class TestPl(unittest.TestCase):
     ]
 
     accounting_system = AccountingSystem()
-    accounting_system.input(data)
+    accounting_system.journalize(data)
     result = accounting_system.output_pl()
 
     expected = (
@@ -86,7 +86,7 @@ class TestPl(unittest.TestCase):
     ]
 
     accounting_system = AccountingSystem()
-    accounting_system.input(data)
+    accounting_system.journalize(data)
     result = accounting_system.output_pl()
 
     expected = (
@@ -130,7 +130,7 @@ class TestPl(unittest.TestCase):
     ]
 
     accounting_system = AccountingSystem()
-    accounting_system.input(data)
+    accounting_system.journalize(data)
     result = accounting_system.output_pl()
 
     expected = (
@@ -156,7 +156,7 @@ class TestPl(unittest.TestCase):
     ]
 
     accounting_system = AccountingSystem()
-    accounting_system.input(data)
+    accounting_system.journalize(data)
     result = accounting_system.output_pl()
 
     expected = (
@@ -180,7 +180,7 @@ class TestPl(unittest.TestCase):
     ]
 
     accounting_system = AccountingSystem()
-    accounting_system.input(data)
+    accounting_system.journalize(data)
     result = accounting_system.output_pl()
 
     expected = (
@@ -195,7 +195,7 @@ class TestPl(unittest.TestCase):
     data = []
 
     accounting_system = AccountingSystem()
-    accounting_system.input(data)
+    accounting_system.journalize(data)
     result = accounting_system.output_pl()
 
     expected = "勘定科目,区分,金額\n"
@@ -243,7 +243,7 @@ class TestPl(unittest.TestCase):
     ]
 
     accounting_system = AccountingSystem()
-    accounting_system.input(data)
+    accounting_system.journalize(data)
     result = accounting_system.output_pl()
 
     expected = (

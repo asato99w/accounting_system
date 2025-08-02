@@ -45,14 +45,17 @@ class AccountItem:
     def __hash__(self):
         return hash(self.__name)
 
+    def __is_same_side(self, other):
+        return self.__get_side() == other.get_side()
+
+    def __get_side(self):
+        return self.__account_type.get_side()
+
     def get_name(self):
         return self.__name
 
-    def get_side(self):
-        return self.__account_type.get_side()
-
     def calculate_balance_delta(self, posting):
-        if posting.get_side() == self.get_side():
+        if self.__is_same_side(posting):
             return posting.get_amount()
         else:
             return posting.get_amount() * -1

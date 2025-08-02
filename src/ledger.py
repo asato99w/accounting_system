@@ -14,11 +14,10 @@ class GeneralLedger:
 
 
     def create_trial_balance(self):
-        result = []
+        trial_balance = TrialBalance()
         for ledger_account in self.__ledger_accounts:
-            result.append(ledger_account.create_balance())
-
-        return TrialBalance(result)
+            trial_balance = trial_balance.add_balance(ledger_account.create_balance())
+        return trial_balance
 
 class LedgerAccount:
     def __init__(self, account_item, postings):
@@ -28,30 +27,36 @@ class LedgerAccount:
     def get_account_item(self):
         return self.__account_item
 
-    def __get_balance(self):
-        balance = sum(self.__account_item.calculate_balance_delta(posting) for posting in self.__postings)
+    def create_balance(self):
+        balance = Balance(self.__account_item)
+        for posting in self.__postings:
+            balance = balance.add(posting)
         return balance
 
-    def create_balance(self):
-        return Balance(self.__account_item, self.__get_balance())
-
 class TrialBalance:
-    def __init__(self, data):
-        self.data = data
+    def __init__(self):
+        self.balances = []
 
     def get_items(self):
-        return self.data
+        return self.balances
+
+    def add_balance(self, balance):
+        self.balances.append(balance)
+        return self
 
 class Balance:
-    def __init__(self, account_item, balance):
+    def __init__(self, account_item, postings = []):
         self.__account_item = account_item
-        self.__balance = balance
+        self.__postings = postings
 
     def get_account_item(self):
         return self.__account_item
 
     def get_balance(self):
-        return self.__balance
+        return sum(self.__account_item.calculate_balance_delta(posting) for posting in self.__postings)
 
     def belongs_to(self, account_type):
         return self.__account_item.belongs_to(account_type)
+
+    def add(self, posting):
+        return Balance(self.__account_item, self.__postings + [posting])

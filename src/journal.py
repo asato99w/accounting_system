@@ -1,5 +1,6 @@
 from .ledger import GeneralLedger
 from .account_item import AccountItems
+from .side import CreditSide, DebitSide
 
 class JournalBook:
     def __init__(self):
@@ -30,17 +31,21 @@ class CompoundJournalEntry:
     def __init__(self, data, account_items):
         if not ("credit" in data and "debit" in data):
             raise ValueError
-        self.__debit_postings = self.__create_postings(data, "debit", account_items)
-        self.__credit_postings = self.__create_postings(data, "credit", account_items)
+        self.__postings = self.__create_postings(data, account_items)
 
-    def __create_postings(self, data, side, account_items):
+    def __create_postings(self, data, account_items):
         postings = []
-        for account_item in data[side]:
-            postings.append(Posting(account_items.get_item(account_item), side, data[side][account_item]))
+        for side in ["credit", "debit"]:
+            for account_item in data[side]:
+                if side == "credit":
+                    side_instance = CreditSide()
+                else:
+                    side_instance = DebitSide()
+                postings.append(Posting(account_items.get_item(account_item), side_instance, data[side][account_item]))
         return postings
 
     def get_postings(self):
-        return self.__debit_postings + self.__credit_postings
+        return self.__postings
 
 class Posting:
     def __init__(self, account_item, side, amount):

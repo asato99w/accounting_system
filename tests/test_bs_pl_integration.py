@@ -55,7 +55,7 @@ class TestBSPLIntegration(unittest.TestCase):
         ]
 
         accounting_system = AccountingSystem()
-        accounting_system.input(data)
+        accounting_system.journalize(data)
 
         # P/L検証
         pl_result = accounting_system.output_pl()
@@ -126,7 +126,7 @@ class TestBSPLIntegration(unittest.TestCase):
         ]
 
         accounting_system = AccountingSystem()
-        accounting_system.input(data)
+        accounting_system.journalize(data)
 
         # P/L検証
         pl_result = accounting_system.output_pl()
@@ -223,7 +223,7 @@ class TestBSPLIntegration(unittest.TestCase):
         ]
 
         accounting_system = AccountingSystem()
-        accounting_system.input(data)
+        accounting_system.journalize(data)
 
         # P/L検証
         pl_result = accounting_system.output_pl()
@@ -274,7 +274,7 @@ class TestBSPLIntegration(unittest.TestCase):
         ]
 
         accounting_system = AccountingSystem()
-        accounting_system.input(data)
+        accounting_system.journalize(data)
 
         # P/L検証（取引なし）
         pl_result = accounting_system.output_pl()
@@ -328,7 +328,7 @@ class TestBSPLIntegration(unittest.TestCase):
         ]
 
         accounting_system = AccountingSystem()
-        accounting_system.input(data)
+        accounting_system.journalize(data)
 
         # 数値を取得して等式を検証
         bs_result = accounting_system.output_balance_sheet()
@@ -379,7 +379,7 @@ class TestBSPLIntegration(unittest.TestCase):
         ]
 
         accounting_system = AccountingSystem()
-        accounting_system.input(data)
+        accounting_system.journalize(data)
 
         # P/L検証（純利益 = 300,000）
         pl_result = accounting_system.output_pl()
@@ -462,7 +462,7 @@ class TestBSPLIntegration(unittest.TestCase):
         ]
 
         accounting_system = AccountingSystem()
-        accounting_system.input(data)
+        accounting_system.journalize(data)
 
         # P/L検証（純損失 = 300,000）
         pl_result = accounting_system.output_pl()
@@ -542,7 +542,7 @@ class TestBSPLIntegration(unittest.TestCase):
         ]
 
         accounting_system = AccountingSystem()
-        accounting_system.input(data)
+        accounting_system.journalize(data)
 
         # 純利益計算: 1,000,000 - 450,000 = 550,000
 

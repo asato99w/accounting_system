@@ -13,7 +13,7 @@ class TestAccountingSystem(unittest.TestCase):
             ]
       accounting_system = AccountingSystem()
       with self.assertRaises(ValueError):
-        accounting_system.input(data)
+        accounting_system.journalize(data)
 
   def test_3(self):
       data = [
@@ -25,7 +25,7 @@ class TestAccountingSystem(unittest.TestCase):
             ]
       accounting_system = AccountingSystem()
       with self.assertRaises(ValueError):
-        accounting_system.input(data)
+        accounting_system.journalize(data)
 
   def test_accounts_receivable(self):
     data = [
@@ -38,7 +38,7 @@ class TestAccountingSystem(unittest.TestCase):
           ]
     accounting_system = AccountingSystem()
     with self.assertRaises(ValueError):
-        accounting_system.input(data)
+        accounting_system.journalize(data)
 
   def test_accounts_payable(self):
     data = [
@@ -51,7 +51,7 @@ class TestAccountingSystem(unittest.TestCase):
           ]
     accounting_system = AccountingSystem()
     with self.assertRaises(ValueError):
-        accounting_system.input(data)
+        accounting_system.journalize(data)
 
   # def test_debit_and_credit(self):
   #     data = [
@@ -65,7 +65,7 @@ class TestAccountingSystem(unittest.TestCase):
   #             }
   #           ]
   #     accounting_system = AccountingSystem()
-  #     accounting_system.input(data)
+  #     accounting_system.journalize(data)
   #     result = accounting_system.output_balance_sheet()
   #     expected = "勘定科目,区分,金額\n現金,資産,-1000\n売掛金,資産,0\n未払金,負債,-1000\n買掛金,負債,0\n資本金,純資産,0\n"
   #     assert result == expected
@@ -102,7 +102,7 @@ class TestAccountingSystem(unittest.TestCase):
             }
           ]
     accounting_system = AccountingSystem()
-    accounting_system.input(data)
+    accounting_system.journalize(data)
     result = accounting_system.output_balance_sheet()
     expected = "勘定科目,区分,金額\n現金,資産,-1500\n売掛金,資産,-1500\n未払金,負債,-500\n買掛金,負債,-2500\n資本金,純資産,0\n"
     assert result == expected
@@ -122,7 +122,7 @@ class TestAccountingSystem(unittest.TestCase):
             }
           ]
     accounting_system = AccountingSystem()
-    accounting_system.input(data)
+    accounting_system.journalize(data)
     result = accounting_system.output_balance_sheet()
     expected = "勘定科目,区分,金額\n現金,資産,-1500\n売掛金,資産,-1500\n未払金,負債,-500\n買掛金,負債,-2500\n資本金,純資産,0\n"
     assert result == expected
@@ -163,7 +163,7 @@ class TestAccountingSystem(unittest.TestCase):
   #             }
   #           ]
   #     accounting_system = AccountingSystem()
-  #     accounting_system.input(data)
+  #     accounting_system.journalize(data)
   #     result = accounting_system.output_balance_sheet()
   #     expected = "勘定科目,区分,金額\n現金,資産,1000\n売掛金,資産,0\n未払金,負債,1000\n買掛金,負債,0\n資本金,純資産,0\n"
   #     assert result == expected

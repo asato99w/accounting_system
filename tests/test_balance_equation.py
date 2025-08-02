@@ -34,7 +34,7 @@ class TestBalanceEquation(unittest.TestCase):
         ]
 
         accounting_system = AccountingSystem()
-        accounting_system.input(data)
+        accounting_system.journalize(data)
 
         bs_result = accounting_system.output_balance_sheet()
         pl_result = accounting_system.output_pl()
@@ -85,7 +85,7 @@ class TestBalanceEquation(unittest.TestCase):
         ]
 
         accounting_system = AccountingSystem()
-        accounting_system.input(data)
+        accounting_system.journalize(data)
 
         bs_result = accounting_system.output_balance_sheet()
         pl_result = accounting_system.output_pl()
