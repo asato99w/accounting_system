@@ -1,9 +1,9 @@
 from .account_type import Asset, Liability, Equity, Revenue, Expense
 
 class FinancialStatements:
-    def __init__(self, worksheet):
-        self.__pl = ProfitAndLoss(worksheet)
-        self.__bs = BalanceSheet(worksheet, self.__pl)
+    def __init__(self, trial_balance):
+        self.__pl = ProfitAndLoss(trial_balance)
+        self.__bs = BalanceSheet(trial_balance, self.__pl)
 
     def __get_pl(self):
         return self.__pl
@@ -18,23 +18,23 @@ class FinancialStatements:
         return self.__bs.export(exporter)
 
 class ProfitAndLoss:
-    def __init__(self, worksheet):
+    def __init__(self, trial_balance):
         self.__profit_and_expense_account_types = [Revenue(), Expense()]
 
-        self.__profit_line_items = self.__create_line_items(worksheet, Revenue())
-        self.__expense_line_items = self.__create_line_items(worksheet, Expense())
+        self.__profit_line_items = self.__create_line_items(trial_balance, Revenue())
+        self.__expense_line_items = self.__create_line_items(trial_balance, Expense())
         self.__line_items_without_net_income = self.__profit_line_items + self.__expense_line_items
 
         self.__net_income = self.__calculate_net_income(self.__line_items_without_net_income)
         self.__line_items = self.__line_items_without_net_income + self.__create_net_income_line(self.__net_income)
 
-    def __create_line_items(self, worksheet, account_type):
+    def __create_line_items(self, trial_balance, account_type):
         line_items = []
-        for row in worksheet:
-            if row["残高"] == 0:
+        for balance in trial_balance.get_items():
+            if balance.get_balance() == 0:
                 continue
-            if account_type.belongs_to(row["勘定科目"]):
-                line_items.append({"勘定科目": row["勘定科目"], "区分": account_type.get_type(), "金額": row["残高"]})
+            if balance.belongs_to(account_type):
+                line_items.append({"勘定科目": balance.get_account_item().get_name(), "区分": account_type.get_type(), "金額": balance.get_balance()})
         return line_items
 
     def __calculate_net_income(self, line_items):
@@ -72,24 +72,24 @@ class ProfitAndLoss:
         return exporter.export()
 
 class BalanceSheet:
-    def __init__(self, worksheet, pl):
+    def __init__(self, trial_balance, pl):
         self.__balance_sheet_account_types = [Asset(), Liability(), Equity()]
         self.__pl = pl
 
-        self.__asset_line_items = self.__create_line_items(worksheet, Asset())
-        self.__liability_line_items = self.__create_line_items(worksheet, Liability())
-        self.__equity_line_items = self.__create_line_items(worksheet, Equity())
-        self.__profit_line_items = self.__create_profit_line_items(worksheet)
+        self.__asset_line_items = self.__create_line_items(trial_balance, Asset())
+        self.__liability_line_items = self.__create_line_items(trial_balance, Liability())
+        self.__equity_line_items = self.__create_line_items(trial_balance, Equity())
+        self.__profit_line_items = self.__create_profit_line_items()
 
-    def __create_line_items(self, worksheet, account_type):
+    def __create_line_items(self, trial_balance, account_type):
         line_items = []
-        for row in worksheet:
-            if account_type.belongs_to(row["勘定科目"]):
-                line_items.append({"勘定科目": row["勘定科目"], "区分": account_type.get_type(), "金額": row["残高"]})
+        for balance in trial_balance.get_items():
+            if balance.belongs_to(account_type):
+                line_items.append({"勘定科目": balance.get_account_item().get_name(), "区分": account_type.get_type(), "金額": balance.get_balance()})
 
         return line_items
 
-    def __create_profit_line_items(self, worksheet):
+    def __create_profit_line_items(self):
         line_items = []
         if self.__pl.is_profit() or self.__pl.is_loss():
             line_items.append({"勘定科目": "利益剰余金", "区分": "純資産", "金額": self.__pl.get_net_income()})

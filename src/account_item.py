@@ -2,7 +2,7 @@ from .account_type import AccountType, Asset, Liability, Equity, Revenue, Expens
 
 class AccountItems:
     def __init__(self):
-        self.account_item_names = ["未払金", "買掛金", "現金", "売掛金", "資本金", "売上", "受取利息", "給料", "仕入", "地代家賃", "水道光熱費"]
+        self.account_item_names = Asset.accounts + Liability.accounts + Equity.accounts + Revenue.accounts + Expense.accounts
         self.__account_items = []
         for account_item_name in self.account_item_names:
             self.__account_items.append(self.create_account_item(account_item_name))
@@ -39,6 +39,12 @@ class AccountItem:
         self.__name = name
         self.__account_type = account_type
 
+    def __eq__(self, other):
+        return self.__name == other.__name
+
+    def __hash__(self):
+        return hash(self.__name)
+
     def get_name(self):
         return self.__name
 
@@ -50,3 +56,6 @@ class AccountItem:
             return posting.get_amount()
         else:
             return posting.get_amount() * -1
+
+    def belongs_to(self, account_type):
+        return self.__account_type == account_type

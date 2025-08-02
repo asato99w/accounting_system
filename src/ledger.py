@@ -15,10 +15,10 @@ class GeneralLedger:
 
     def create_trial_balance(self):
         result = []
-        for account_item in self.__ledger_accounts:
-            result.append({"勘定科目": account_item.get_account_item().get_name(), "残高": account_item.get_balance()})
+        for ledger_account in self.__ledger_accounts:
+            result.append(ledger_account.create_balance())
 
-        return result
+        return TrialBalance(result)
 
 class LedgerAccount:
     def __init__(self, account_item, postings):
@@ -28,6 +28,30 @@ class LedgerAccount:
     def get_account_item(self):
         return self.__account_item
 
-    def get_balance(self):
+    def __get_balance(self):
         balance = sum(self.__account_item.calculate_balance_delta(posting) for posting in self.__postings)
         return balance
+
+    def create_balance(self):
+        return Balance(self.__account_item, self.__get_balance())
+
+class TrialBalance:
+    def __init__(self, data):
+        self.data = data
+
+    def get_items(self):
+        return self.data
+
+class Balance:
+    def __init__(self, account_item, balance):
+        self.__account_item = account_item
+        self.__balance = balance
+
+    def get_account_item(self):
+        return self.__account_item
+
+    def get_balance(self):
+        return self.__balance
+
+    def belongs_to(self, account_type):
+        return self.__account_item.belongs_to(account_type)

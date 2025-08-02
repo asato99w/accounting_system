@@ -10,6 +10,12 @@ class AccountType:
         self.__accounts = accounts
         self.__side = self.__set_side(account_type)
 
+    def __eq__(self, other):
+        return self.__account_type == other.__account_type
+
+    def __hash__(self):
+        return hash(self.__account_type)
+
     def __set_side(self, account_type):
         if account_type == "資産":
             self.__side = "debit"
@@ -28,9 +34,6 @@ class AccountType:
 
     def get_type(self):
         return self.__account_type
-
-    def belongs_to(self, account_name):
-        return account_name in self.__accounts
 
 class Asset(AccountType):
     accounts = ["現金", "売掛金"]
